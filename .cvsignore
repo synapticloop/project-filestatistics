@@ -1,0 +1,8 @@
+build
+dist
+*.png
+*.html
+com.example.AverageReporter.txt
+com.example.PercentageReporter.txt
+cobertura.ser
+filestatistics.ser

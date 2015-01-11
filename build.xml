@@ -1,0 +1,21 @@
+<project name="project-filestatistics" basedir="." default="help">
+	<description>
+		This project builds a simple ant task that prints out file statistics.
+		---- ------- ------ - ------ --- ---- ---- ------ --- ---- -----------
+	</description>
+
+	<property name="manifest.file" value="src/main/java/META-INF/MANIFEST.MF" />
+	<import file="../common-build/java-build.xml"/>
+
+	<import file="filestatistics-build.xml" />
+
+	<!--
+		Print out a help message
+		-->
+	<target name="help" description="print out a help message">
+		<echo>type:</echo>
+		<echo>	ant -projecthelp</echo>
+		<echo>for a task list</echo>
+	</target>
+
+</project>
