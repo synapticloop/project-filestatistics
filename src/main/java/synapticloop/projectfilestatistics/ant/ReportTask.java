@@ -90,7 +90,7 @@ public class ReportTask extends Task {
 			PropertyManager.getInstance().initialise(Constants.DEFAULT_PROPERTY_FILE_NAME, propertyFileName);
 		} catch(MissingResourceException jumrex) {
 			getProject().log("Cannot load default properties file '" + Constants.DEFAULT_PROPERTY_FILE_NAME + "'.\nexiting...", Project.MSG_ERR);
-			System.exit(-1);
+			return;
 		}
 
 		// check for binary file checking

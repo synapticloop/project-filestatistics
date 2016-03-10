@@ -1,5 +1,7 @@
 package synapticloop.projectfilestatistics.util;
 
+import java.text.DecimalFormatSymbols;
+
 // this code was taken from the following location:
 // http://java.sun.com/developer/technicalArticles/Programming/sprintf/PrintfFormat.java
 
@@ -35,19 +37,18 @@ package synapticloop.projectfilestatistics.util;
 
 
 import java.util.Enumeration;
-import java.util.Vector;
 import java.util.Locale;
-import java.text.DecimalFormatSymbols;
+import java.util.Vector;
 
 /**
  * <div style="border: 1px solid #000; padding: 3px; margin:0 0 10px 0;">
  * <strong>ADVISORY NOTE</strong>
  * <p>
- * this code was taken from the following location:<br />
+ * this code was taken from the following location:
  * <a href="http://java.sun.com/developer/technicalArticles/Programming/sprintf/PrintfFormat.java" target="_blank">http://java.sun.com/developer/technicalArticles/Programming/sprintf/PrintfFormat.java</a>
  * </p>
  * <p>
- * for more information see:<br />
+ * for more information see:
  * <a href="http://java.sun.com/developer/technicalArticles/Programming/sprintf/" target="_blank">http://java.sun.com/developer/technicalArticles/Programming/sprintf/</a>
  * </p>
  * </div>
@@ -58,26 +59,27 @@ import java.text.DecimalFormatSymbols;
  * A control string is a Java string that contains a control specification.  
  * The control specification starts at the first percent sign (%) in the 
  * string, provided that this percent sign
+ * </p>
  *<ol>
  *<li>is not escaped protected by a matching % or is not an escape % character,</li>
  *<li>is not at the end of the format string, and</li>
  *<li>precedes a sequence of characters that parses as a valid control 
  *    specification.</li>
  *</ol>
- *</p><p>
+ *
  * A control specification usually takes the form:
  *<pre> % ['-+ #0]* [0..9]* { . [0..9]* }+
  *                { [hlL] }+ [idfgGoxXeEcs]
  *</pre>
- * There are variants of this basic form that are discussed below.</p>
- *<p>
+ * <p>There are variants of this basic form that are discussed below.</p>
+ * 
  * The format is composed of zero or more directives defined as follows:
  *<ul>
  *<li>ordinary characters, which are simply copied to the output stream;</li>
  *<li>escape sequences, which represent non-graphic characters; and</li>
  *<li>conversion specifications,  each of which results in the fetching of 
  *    zero or more arguments.</li>
- *</ul></p>
+ *</ul>
  *<p>
  * The results are undefined if there are insufficient arguments for the 
  * format.  Usually an unchecked exception will be thrown.  If the format is
@@ -97,20 +99,27 @@ import java.text.DecimalFormatSymbols;
  * specifications, each argument in the argument list is used exactly once.
  * </p>
  *
- * <h4>Escape Sequences</h4>
+ * <h2>Escape Sequences</h2>
  * <p>
  * The following table lists escape sequences and associated actions on 
- * display devices capable of the action.
+ * display devices capable of the action.</p>
  * 
- * <table>
- * <tr><th align=left>Sequence</th>
- *     <th align=left>Name</th>
- *     <th align=left>Description</th>
+ * <table summary="escape sequences">
+ * <tr>
+ *   <th align=left>Sequence</th>
+ *   <th align=left>Name</th>
+ *   <th align=left>Description</th>
  * </tr>
- * <tr><td>\\</td><td>backlash</td><td>None.</td></tr>
- * <tr><td>\a</td><td>alert</td><td>Attempts to alert the user through audible 
- *      or visible notification.
- * </td></tr>
+ * <tr>
+ *   <td>\\</td>
+ *   <td>backlash</td>
+ *   <td>None.</td>
+ * </tr>
+ * <tr>
+ *   <td>\a</td>
+ *   <td>alert</td>
+ *   <td>Attempts to alert the user through audible or visible notification.</td>
+ * </tr>
  * <tr><td>\b</td><td>backspace</td><td>Moves the printing position to one 
  *      column before the current position, unless the current position is the 
  *      start of a line.
@@ -137,8 +146,9 @@ import java.text.DecimalFormatSymbols;
  *          next implementation-defined vertical
  *          tab position.
  *</td></tr>
- *</table></p>
- *<h4>Conversion Specifications</h4>
+ *</table>
+ *
+ *<h2>Conversion Specifications</h2>
  *<p>
  * Each conversion specification is introduced by the percent sign character 
  * (%).  After the character %, the following appear in sequence:</p>
@@ -198,7 +208,7 @@ import java.text.DecimalFormatSymbols;
  * results of mixing numbered and unnumbered argument
  * specifications in a format string are undefined.</p>
  *
- *<h4>Flag Characters</h4>
+ *<h2>Flag Characters</h2>
  *<p>
  * The flags and their meanings are:</p>
  *<dl>
@@ -210,7 +220,7 @@ import java.text.DecimalFormatSymbols;
  *      character is used.
  * <dt>-<dd> result of the conversion is left-justified
  *      within the field.  (It will be right-justified
- *      if this flag is not specified).</td></tr>
+ *      if this flag is not specified).
  * <dt>+<dd> result of a signed conversion always
  *      begins with a sign (+ or -).  (It will begin
  *      with a sign only when a negative value is
@@ -246,7 +256,7 @@ import java.text.DecimalFormatSymbols;
  *      the flag is ignored.
  *</dl>
  *
- *<h4>Conversion Characters</h4>
+ *<h2>Conversion Characters</h2>
  *<p>
  * Each conversion character results in fetching zero
  * or more arguments.  The results are undefined if
@@ -453,7 +463,10 @@ public class PrintfFormat {
 	 * separated, or followed by ordinary strings.  Control strings begin with
 	 * unpaired percent signs.  A pair of successive percent signs designates a 
 	 * single percent sign in the format.
+	 * 
+	 * @param locale the locale to format it for
 	 * @param fmtArg  Control string.
+	 * 
 	 * @exception IllegalArgumentException if the control string is null, zero 
 	 * 	length, or otherwise malformed.
 	 */

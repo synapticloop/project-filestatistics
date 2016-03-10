@@ -28,7 +28,9 @@ public class ProjectFileStatistics {
 		StringBuilder stringBuilder = new StringBuilder(1024);
 		char[] chars = new char[1024];
 		try {
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ProjectFileStatistics.class.getResourceAsStream("/filestatistics-build.xml")));
+			BufferedReader bufferedReader = new BufferedReader(
+					new InputStreamReader(
+							ProjectFileStatistics.class.getResourceAsStream("/filestatistics-build.xml")));
 			int numRead = 0;
 			while((numRead = bufferedReader.read(chars)) != -1) {
 				String readData = String.valueOf(chars, 0, numRead);
