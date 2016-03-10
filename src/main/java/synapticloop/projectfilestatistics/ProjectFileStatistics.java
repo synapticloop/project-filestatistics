@@ -1,4 +1,4 @@
-package synapticloop.projectfilestatistics.main;
+package synapticloop.projectfilestatistics;
 
 /*
  * Copyright (c) 2011-2015 synapticloop.

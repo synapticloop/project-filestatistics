@@ -1,4 +1,4 @@
-package synapticloop.projectfilestatistics.main;
+package synapticloop.projectfilestatistics;
 
 /*
  * Copyright (c) 2011 synapticloop.
@@ -26,6 +26,8 @@ import org.junit.Test;
 import org.junit.After;
 
 import org.mockito.Mock;
+
+import synapticloop.projectfilestatistics.ProjectFileStatistics;
 
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.*;
