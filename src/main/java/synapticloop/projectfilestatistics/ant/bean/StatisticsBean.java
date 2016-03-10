@@ -1,7 +1,7 @@
 package synapticloop.projectfilestatistics.ant.bean;
 
 /*
- * Copyright (c) 2009-2011 synapticloop.
+ * Copyright (c) 2009-2015 synapticloop.
  * All rights reserved.
  * 
  * This source code and any derived binaries are covered by the terms and 
@@ -440,30 +440,39 @@ public class StatisticsBean {
 
 	public static Vector<StatisticsBean> deSerialise(File fileLocation) throws IOException {
 		Vector<StatisticsBean> statisticsBeans = new Vector<StatisticsBean>();
-		BufferedReader bufferedReader = new BufferedReader(new FileReader(fileLocation));
-		String line = null;
-		long thisRunDateTime = 0;
-		StatisticsBean statisticsBean = null;
-		boolean shouldStore = false;
-		while((line = bufferedReader.readLine()) != null) {
-			String[] splitter = line.split("\t");
-			long tempRunDateTime = Long.parseLong(splitter[0]);
-
-			if(thisRunDateTime != tempRunDateTime) {
-				if(thisRunDateTime != 0) {
-					shouldStore = true;
+		BufferedReader bufferedReader = null;
+		try {
+			bufferedReader = new BufferedReader(new FileReader(fileLocation));
+			String line = null;
+			long thisRunDateTime = 0;
+			StatisticsBean statisticsBean = null;
+			boolean shouldStore = false;
+			while((line = bufferedReader.readLine()) != null) {
+				String[] splitter = line.split("\t");
+				long tempRunDateTime = Long.parseLong(splitter[0]);
+	
+				if(thisRunDateTime != tempRunDateTime) {
+					if(thisRunDateTime != 0) {
+						shouldStore = true;
+					}
+					thisRunDateTime = tempRunDateTime;
+					if(shouldStore) {
+						statisticsBeans.add(statisticsBean);
+					}
+					statisticsBean = new StatisticsBean();
 				}
-				thisRunDateTime = tempRunDateTime;
-				if(shouldStore) {
-					statisticsBeans.add(statisticsBean);
-				}
-				statisticsBean = new StatisticsBean();
+	
+				statisticsBean.setRunDateTime(Long.parseLong(splitter[0]));
+				statisticsBean.setTotalFileCount(Integer.parseInt(splitter[2]));
+				statisticsBean.setTotalLineCount(Integer.parseInt(splitter[3]));
+				statisticsBean.updateCount(splitter[1], Integer.parseInt(splitter[4]), Integer.parseInt(splitter[5]), Integer.parseInt(splitter[6]));
 			}
-
-			statisticsBean.setRunDateTime(Long.parseLong(splitter[0]));
-			statisticsBean.setTotalFileCount(Integer.parseInt(splitter[2]));
-			statisticsBean.setTotalLineCount(Integer.parseInt(splitter[3]));
-			statisticsBean.updateCount(splitter[1], Integer.parseInt(splitter[4]), Integer.parseInt(splitter[5]), Integer.parseInt(splitter[6]));
+		} catch(IOException ioex) {
+			throw(ioex);
+		} finally {
+			if(null != bufferedReader) {
+				bufferedReader.close();
+			}
 		}
 		return(statisticsBeans);
 	}

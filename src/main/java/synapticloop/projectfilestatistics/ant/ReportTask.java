@@ -33,6 +33,7 @@ import java.util.MissingResourceException;
 import java.util.Vector;
 
 import org.apache.tools.ant.DirectoryScanner;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.FileSet;
 
@@ -70,28 +71,25 @@ public class ReportTask extends Task {
 	// the output directory
 	private String outputDirectory = null;
 	// where to serialise the statistics for
-	private String serialiseFileLocation = "filestatistics.ser";
-//	private static final String DEFAULT_HISTORICAL_PLUGIN_LIST = "HistoricalReporter";
 
 	// list of plugins to use
 	private String pluginList = Constants.DEFAULT_PLUGIN_LIST;
-//	private String historicalPluginList = DEFAULT_HISTORICAL_PLUGIN_LIST;
 
 	private StatisticsBean statisticsBean = new StatisticsBean();
 
 	Vector<AbstractReporter> reporters = new Vector<AbstractReporter>();
-//	Vector<AbstractHistoricalReporter> historicalReporters = new Vector<AbstractHistoricalReporter>();
 
 
 	/* (non-Javadoc)
 	 * @see org.apache.tools.ant.Task#execute()
 	 */
+	@Override
 	public void execute() {
 		// load up the properties
 		try {
 			PropertyManager.getInstance().initialise(Constants.DEFAULT_PROPERTY_FILE_NAME, propertyFileName);
 		} catch(MissingResourceException jumrex) {
-			System.out.println("FATAL: cannot load default properties file '" + Constants.DEFAULT_PROPERTY_FILE_NAME + "'.\nexiting...");
+			getProject().log("Cannot load default properties file '" + Constants.DEFAULT_PROPERTY_FILE_NAME + "'.\nexiting...", Project.MSG_ERR);
 			System.exit(-1);
 		}
 
@@ -124,29 +122,8 @@ public class ReportTask extends Task {
 			AbstractReporter abstractReporter = (AbstractReporter) reporterIterator.next();
 			abstractReporter.print(outputDirectory, statisticsBean);
 		}
-
-		try {
-			statisticsBean.serialise(new File(serialiseFileLocation));
-		} catch (IOException jiioex) {
-			System.out.println("WARN: could not create historical filestatistics file '" + serialiseFileLocation + "'");
-		}
-
-		// now get the serialised file and write out the history
-//		try {
-//			Vector<StatisticsBean> statisticsBeans = StatisticsBean.deSerialise(new File(serialiseFileLocation));
-//			// now go through the plugins and execute them
-//			Iterator<AbstractHistoricalReporter> historicalReporterIterator = historicalReporters.iterator();
-//			while (historicalReporterIterator.hasNext()) {
-//				AbstractHistoricalReporter abstractHistoricalReporter = (AbstractHistoricalReporter) historicalReporterIterator.next();
-//				abstractHistoricalReporter.print(outputDirectory, statisticsBeans);
-//			}
-//		} catch (IOException jiioex) {
-//			System.out.println("WARN: could not read historical filestatistics file '" + serialiseFileLocation + "'");
-//			System.out.println("WARN: No historical reports can be generated.");
-//		}
-
 	}
-	
+
 	/**
 	 * Generate the list of the plugins to be executed.  Plugins _MUST_ inherit
 	 * from synapticloop.reporter.AbstractReporter.  The plugin name is 
@@ -157,7 +134,7 @@ public class ReportTask extends Task {
 	 */
 	private void generatePluginList() {
 		findPlugins();
-//		findHistoricalPlugins();
+		//		findHistoricalPlugins();
 	}
 
 	private void findPlugins() {
@@ -180,26 +157,6 @@ public class ReportTask extends Task {
 		}
 	}
 
-//	private void findHistoricalPlugins() {
-//		String[] pluginSplit = historicalPluginList.split(",");
-//		Object object = null;
-//		for (int i = 0; i < pluginSplit.length; i++) {
-//			String pluginName = pluginSplit[i].trim();
-//			object = findObject(pluginName);
-//
-//			// If the object is still null
-//			if(null == object) {
-//				System.out.println("WARNING: could not find plugin " + pluginName + " class as either '" + this.getClass().getPackage().getName() + ".reporter." + pluginName + "' or '" + pluginName + "'.  Ignoring...\n");
-//			} else {
-////				if(object instanceof AbstractHistoricalReporter) {
-////					historicalReporters.add((AbstractHistoricalReporter)object);
-////				} else {
-////					System.out.println("WARNING: plugin " + pluginName + " is not an instance of " + AbstractHistoricalReporter.class.getName() + " and will be ignored.");
-////				}
-//			}
-//		}
-//	}
-
 	private Object findObject(String pluginName) {
 		Object object = null;
 		// try and find a synapticloop plugin
@@ -221,15 +178,14 @@ public class ReportTask extends Task {
 		}
 		return(object);
 	}
+
 	/**
 	 * Set the name of the custom property file to be loaded
 	 * 
 	 * @param propertyFileName the location of the property file
 	 */
 
-	public void setPropertyFile(String propertyFileName) {
-		this.propertyFileName = propertyFileName;
-	}
+	public void setPropertyFile(String propertyFileName) { this.propertyFileName = propertyFileName; }
 
 
 	/**
@@ -239,10 +195,7 @@ public class ReportTask extends Task {
 	 * @param ignoreBinary whether to ignore binary files (default false)
 	 */
 
-	public void setIgnoreBinary(boolean ignoreBinary) {
-		this.ignoreBinary = ignoreBinary;
-	}
-
+	public void setIgnoreBinary(boolean ignoreBinary) { this.ignoreBinary = ignoreBinary; }
 
 	/**
 	 * The fileset to be used for this task
@@ -250,10 +203,7 @@ public class ReportTask extends Task {
 	 * @param fileset the passed in fileset
 	 */
 
-	public void addFileset(FileSet fileset) {
-		filesets.addElement(fileset);
-	}
-
+	public void addFileset(FileSet fileset) { filesets.addElement(fileset); }
 
 	/**
 	 * Retrieve the file extension from a file name.  If the file has no
@@ -402,13 +352,7 @@ public class ReportTask extends Task {
 	/**
 	 * @param pluginList the pluginList to set
 	 */
-	public void setPluginList(String pluginList) {
-		this.pluginList = pluginList;
-	}
-
-//	public void setHistoricalPluginList(String historicalPluginList) {
-//		this.historicalPluginList = historicalPluginList;
-//	}
+	public void setPluginList(String pluginList) { this.pluginList = pluginList; }
 
 	/**
 	 * Set the directory for the output of the generated files.
@@ -431,13 +375,5 @@ public class ReportTask extends Task {
 		} else {
 			this.outputDirectory = outputDirectory;
 		}
-	}
-
-	public void setSerialiseFileLocation(String serialiseFileLocation) {
-		this.serialiseFileLocation = serialiseFileLocation;
-	}
-
-	public String getSerialiseFileLocation() {
-		return serialiseFileLocation;
 	}
 }

@@ -30,14 +30,14 @@ public class AbstractTextReporter extends AbstractReporter {
 	}
 
 	protected String generateDuplicateCharacters(char character, int numTimes) {
-		StringBuffer stringBuffer = new StringBuffer();
+		StringBuilder stringBuilder = new StringBuilder();
 	
 		while(numTimes > 0) {
-			stringBuffer.append(character);
+			stringBuilder.append(character);
 			numTimes--;
 		}
 		
-		return (stringBuffer.toString());
+		return (stringBuilder.toString());
 	}
 
 	protected void printToConsole() {

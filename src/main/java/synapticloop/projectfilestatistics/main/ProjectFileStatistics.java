@@ -1,12 +1,7 @@
 package synapticloop.projectfilestatistics.main;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 /*
- * Copyright (c) 2011 synapticloop.
+ * Copyright (c) 2011-2015 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -21,6 +16,11 @@ import java.io.InputStreamReader;
  * Licence for the specific language governing permissions and limitations
  * under the Licence.
  */
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 
 public class ProjectFileStatistics {
 
@@ -45,7 +45,7 @@ public class ProjectFileStatistics {
 		System.out.println("type:");
 		System.out.println("  java -jar project-filestatistics.jar example\n");
 		System.out.println("for a build file example.\n");
-		
+
 	}
 
 	private static void printSorry() {
@@ -67,21 +67,22 @@ public class ProjectFileStatistics {
 
 	public static void main(String[] args) {
 		switch(args.length) {
-			case 0:
-				printSorry();
-				break;
-			case 1:
-				if(args[0].compareToIgnoreCase("example") == 0) {
-					printExample();
-				} else {
-					printUnknownArguments(args);
-					printUsage();
-				}
-				break;
-			default:
+		case 0:
+			printSorry();
+			printUsage();
+			break;
+		case 1:
+			if(args[0].compareToIgnoreCase("example") == 0) {
+				printExample();
+			} else {
 				printUnknownArguments(args);
 				printUsage();
-				break;
+			}
+			break;
+		default:
+			printUnknownArguments(args);
+			printUsage();
+			break;
 		}
 	}
 }

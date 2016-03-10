@@ -35,22 +35,22 @@ public class PercentBarTextReporter extends AbstractTextReporter {
 	private static final char COMMENT_CHAR = ':';
 	private static final char BLANK_CHAR = ' ';
 
-	@SuppressWarnings("unchecked")
+	@Override
 	protected void printToConsole() {
-		StringBuffer stringBuffer = new StringBuffer();
+		StringBuilder stringBuilder = new StringBuilder();
 
 		if(statisticsBean.getMaxExtensionLength() > maxExtensionLength) {
 			maxExtensionLength = statisticsBean.getMaxExtensionLength();
 		}
 
-		stringBuffer.append("\n");
-		stringBuffer.append(PrintHelper.underlineText("Line number report (" + this.getClass().getSimpleName() + ")" , '=', false));
-		stringBuffer.append("\n");
+		stringBuilder.append("\n");
+		stringBuilder.append(PrintHelper.underlineText("Line number report (" + this.getClass().getSimpleName() + ")" , '=', false));
+		stringBuilder.append("\n");
 
-		stringBuffer.append(printHeading(maxExtensionLength + 2, FILE_TYPE_HEADING));
-		stringBuffer.append("\n");
-		stringBuffer.append(PrintHelper.underline('-', maxExtensionLength + 2) + generatePercentageSpacer());
-		stringBuffer.append("\n");
+		stringBuilder.append(printHeading(maxExtensionLength + 2, FILE_TYPE_HEADING));
+		stringBuilder.append("\n");
+		stringBuilder.append(PrintHelper.underline('-', maxExtensionLength + 2) + generatePercentageSpacer());
+		stringBuilder.append("\n");
 
 		// the width of the console is 40 wide - therefore each % point is 2.5%
 		Set<String> set = statisticsBean.getHashMapTotalFileCount().keySet();
@@ -60,31 +60,31 @@ public class PercentBarTextReporter extends AbstractTextReporter {
 		treeSet.addAll(set);
 
 		String key = null;
-		Iterator iter = treeSet.iterator(); 
+		Iterator<String> iter = treeSet.iterator(); 
 		while(iter.hasNext()) {
 			key = (String)iter.next();
 			// for the graph and lines
-			stringBuffer.append(new PrintfFormat("%" + (maxExtensionLength + 2) + "s  ").sprintf(""));
-			stringBuffer.append(generateGraphSpacerHeader(key, POINT_CHAR, LINE_CHAR));
-			stringBuffer.append("\n");
+			stringBuilder.append(new PrintfFormat("%" + (maxExtensionLength + 2) + "s  ").sprintf(""));
+			stringBuilder.append(generateGraphSpacerHeader(key, POINT_CHAR, LINE_CHAR));
+			stringBuilder.append("\n");
 			// The file type i.e. the extension
-			stringBuffer.append(new PrintfFormat("%" + (maxExtensionLength + 2) + "s  ").sprintf("." + key));
-			stringBuffer.append(generateGraphSpacer(key, VERTICAL_LINE_CHAR, CODE_CHAR, COMMENT_CHAR, BLANK_CHAR));
-			stringBuffer.append("\n");
+			stringBuilder.append(new PrintfFormat("%" + (maxExtensionLength + 2) + "s  ").sprintf("." + key));
+			stringBuilder.append(generateGraphSpacer(key, VERTICAL_LINE_CHAR, CODE_CHAR, COMMENT_CHAR, BLANK_CHAR));
+			stringBuilder.append("\n");
 		}
 		// the last line
-		stringBuffer.append(new PrintfFormat("%" + (maxExtensionLength + 2) + "s  ").sprintf(""));
-		stringBuffer.append(generateGraphSpacerHeader(key, POINT_CHAR, LINE_CHAR) + "\n");
+		stringBuilder.append(new PrintfFormat("%" + (maxExtensionLength + 2) + "s  ").sprintf(""));
+		stringBuilder.append(generateGraphSpacerHeader(key, POINT_CHAR, LINE_CHAR) + "\n");
 
-		stringBuffer.append("\n");
+		stringBuilder.append("\n");
 
 		// print out the key
-		stringBuffer.append(PrintHelper.underlineText("Key:", '-', false) + "\n");
-		stringBuffer.append("  '" + CODE_CHAR + "' code" + "\n");
-		stringBuffer.append("  '" + COMMENT_CHAR + "' comment" + "\n");
-		stringBuffer.append("  '" + BLANK_CHAR + "' blank" + "\n");
+		stringBuilder.append(PrintHelper.underlineText("Key:", '-', false) + "\n");
+		stringBuilder.append("  '" + CODE_CHAR + "' code" + "\n");
+		stringBuilder.append("  '" + COMMENT_CHAR + "' comment" + "\n");
+		stringBuilder.append("  '" + BLANK_CHAR + "' blank" + "\n");
 		
-		System.out.println(stringBuffer.toString());
+		System.out.println(stringBuilder.toString());
 	}
 
 	private String generateGraphSpacer(String fileExtension, char point, char code, char comment, char blank) {
@@ -108,21 +108,21 @@ public class PercentBarTextReporter extends AbstractTextReporter {
 			}
 		}
 
-		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append(point);
-		stringBuffer.append(generateDuplicateCharacters(code, numCharsForCode));
-		stringBuffer.append(point);
-		stringBuffer.append(generateDuplicateCharacters(comment, numCharsForComment));
-		stringBuffer.append(point);
-		stringBuffer.append(generateDuplicateCharacters(blank, numCharsForBlank));
-		stringBuffer.append(point);
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(point);
+		stringBuilder.append(generateDuplicateCharacters(code, numCharsForCode));
+		stringBuilder.append(point);
+		stringBuilder.append(generateDuplicateCharacters(comment, numCharsForComment));
+		stringBuilder.append(point);
+		stringBuilder.append(generateDuplicateCharacters(blank, numCharsForBlank));
+		stringBuilder.append(point);
 
-		return (stringBuffer.toString());
+		return (stringBuilder.toString());
 	}
 
 	private String generatePercentageSpacer() {
-		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append("  0");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("  0");
 		boolean hasHalf = NUM_CHARS >= 4;
 		boolean hasOneQuarter = NUM_CHARS >= 10;
 		boolean hasThreeQuarter = hasOneQuarter;
@@ -130,24 +130,24 @@ public class PercentBarTextReporter extends AbstractTextReporter {
 		int i = 0;
 		while(i < NUM_CHARS) {
 			if(hasOneQuarter && i > Math.floor((NUM_CHARS/4))-2) {
-				stringBuffer.append("25");
+				stringBuilder.append("25");
 				hasOneQuarter = false;
 				i++;
 			} else if(hasHalf && i > Math.floor((NUM_CHARS/2)) -2) {
-				stringBuffer.append("50");
+				stringBuilder.append("50");
 				hasHalf = false;
 				i++;
 			} else if(hasThreeQuarter && i > Math.floor((NUM_CHARS*3)/4) -1) {
-				stringBuffer.append("75");
+				stringBuilder.append("75");
 				hasThreeQuarter = false;
 				i++;
 			} else {
-				stringBuffer.append(" ");
+				stringBuilder.append(" ");
 			}
 			i++;
 		}
-		stringBuffer.append("100");
-		return (stringBuffer.toString());
+		stringBuilder.append("100");
+		return (stringBuilder.toString());
 	}
 
 	/**

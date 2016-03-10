@@ -34,11 +34,11 @@ public class PrintHelper {
 	 */
 	
 	public static String underline(char character, int numTimes) {
-		StringBuffer stringBuffer = new StringBuffer(numTimes);
+		StringBuilder stringBuilder = new StringBuilder(numTimes);
 		for(int i = 0; i < numTimes; i++) {
-			stringBuffer.append(character);
+			stringBuilder.append(character);
 		}
-		return(stringBuffer.toString());
+		return(stringBuilder.toString());
 	}
 	
 	/**
@@ -67,23 +67,23 @@ public class PrintHelper {
 		int textLength = text.length();
 
 		// initialise the string buffer
-		StringBuffer stringBuffer = new StringBuffer((textLength * 2) + 1);
+		StringBuilder stringBuilder = new StringBuilder((textLength * 2) + 1);
 		for(int i = 0; i < (textLength *2 + 1); i ++) {
-			stringBuffer.append(' ');
+			stringBuilder.append(' ');
 		}
 
 		for(int i = 0; i < textLength; i++) {
 			char currentChar = text.charAt(i);
-			stringBuffer.setCharAt(i, currentChar);
+			stringBuilder.setCharAt(i, currentChar);
 			if(skipSpace && currentChar == ' ') {
-				stringBuffer.setCharAt(textLength + 1 + i, ' ');
+				stringBuilder.setCharAt(textLength + 1 + i, ' ');
 			} else {
-				stringBuffer.setCharAt(textLength + 1 + i, character);
+				stringBuilder.setCharAt(textLength + 1 + i, character);
 			}
 		}
 
 		// now for the new line character
-		stringBuffer.setCharAt(textLength, '\n');
-		return(stringBuffer.toString());
+		stringBuilder.setCharAt(textLength, '\n');
+		return(stringBuilder.toString());
 	}
 }

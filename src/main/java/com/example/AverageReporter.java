@@ -18,7 +18,7 @@ public class AverageReporter extends AbstractReporter {
 	private static final String TOTAL_LINES = "Total # lines:     ";
 	private static final String TOTAL_FILES = "Total # files:     ";
 
-	private StringBuffer stringBuffer = null;
+	private StringBuilder stringBuilder = null;
 
 	@Override
 	protected void printToConsole() {
@@ -43,24 +43,24 @@ public class AverageReporter extends AbstractReporter {
 	/**
 	 * Generate the output for the reporter and buffer it for second usage
 	 *  
-	 * @return The stringBuffer containing the output.
+	 * @return The stringBuilder containing the output.
 	 */
-	private StringBuffer getOutput() {
-		if(stringBuffer == null) {
+	private StringBuilder getOutput() {
+		if(stringBuilder == null) {
 			int length = new String(statisticsBean.getTotalLineCount() + "").length();
-			stringBuffer = new StringBuffer();
-			stringBuffer.append(TOTAL_FILES + " " + new PrintfFormat("%" + length + "i").sprintf(statisticsBean.getTotalFileCount()) + "\n");
-			stringBuffer.append(TOTAL_LINES + " " + new PrintfFormat("%" + length + "i").sprintf(statisticsBean.getTotalLineCount()) + "\n");
-			stringBuffer.append(PrintHelper.underline('-', AVERAGE_LINES_FILE.length()) + " " + PrintHelper.underline('-', length) + "\n");
+			stringBuilder = new StringBuilder();
+			stringBuilder.append(TOTAL_FILES + " " + new PrintfFormat("%" + length + "i").sprintf(statisticsBean.getTotalFileCount()) + "\n");
+			stringBuilder.append(TOTAL_LINES + " " + new PrintfFormat("%" + length + "i").sprintf(statisticsBean.getTotalLineCount()) + "\n");
+			stringBuilder.append(PrintHelper.underline('-', AVERAGE_LINES_FILE.length()) + " " + PrintHelper.underline('-', length) + "\n");
 
 			int averageLinesFile = 0;
 			if(statisticsBean.getTotalFileCount() != 0) {
 				averageLinesFile = statisticsBean.getTotalLineCount()/statisticsBean.getTotalFileCount();
 			}
 
-			stringBuffer.append(AVERAGE_LINES_FILE + " " + new PrintfFormat("%" + length + "i").sprintf(averageLinesFile) +"\n");
-			stringBuffer.append(PrintHelper.underline('=', AVERAGE_LINES_FILE.length()) + " " + PrintHelper.underline('=', length));
+			stringBuilder.append(AVERAGE_LINES_FILE + " " + new PrintfFormat("%" + length + "i").sprintf(averageLinesFile) +"\n");
+			stringBuilder.append(PrintHelper.underline('=', AVERAGE_LINES_FILE.length()) + " " + PrintHelper.underline('=', length));
 		}
-		return (stringBuffer);
+		return (stringBuilder);
 	}
 }

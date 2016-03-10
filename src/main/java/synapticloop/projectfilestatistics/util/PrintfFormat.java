@@ -531,7 +531,7 @@ public class PrintfFormat {
 		ConversionSpecification cs = null;
 		char c = 0;
 		int i=0;
-		StringBuffer sb=new StringBuffer();
+		StringBuilder sb=new StringBuilder();
 		while (e.hasMoreElements()) {
 			cs = (ConversionSpecification)
 			e.nextElement();
@@ -602,7 +602,7 @@ public class PrintfFormat {
 		Enumeration e = vFmt.elements();
 		ConversionSpecification cs = null;
 		char c = 0;
-		StringBuffer sb=new StringBuffer();
+		StringBuilder sb=new StringBuilder();
 		while (e.hasMoreElements()) {
 			cs = (ConversionSpecification)
 			e.nextElement();
@@ -626,7 +626,7 @@ public class PrintfFormat {
 		Enumeration e = vFmt.elements();
 		ConversionSpecification cs = null;
 		char c = 0;
-		StringBuffer sb=new StringBuffer();
+		StringBuilder sb=new StringBuilder();
 		while (e.hasMoreElements()) {
 			cs = (ConversionSpecification)
 			e.nextElement();
@@ -650,7 +650,7 @@ public class PrintfFormat {
 		Enumeration e = vFmt.elements();
 		ConversionSpecification cs = null;
 		char c = 0;
-		StringBuffer sb=new StringBuffer();
+		StringBuilder sb=new StringBuilder();
 		while (e.hasMoreElements()) {
 			cs = (ConversionSpecification)
 			e.nextElement();
@@ -674,7 +674,7 @@ public class PrintfFormat {
 		Enumeration e = vFmt.elements();
 		ConversionSpecification cs = null;
 		char c = 0;
-		StringBuffer sb=new StringBuffer();
+		StringBuilder sb=new StringBuilder();
 		while (e.hasMoreElements()) {
 			cs = (ConversionSpecification)
 			e.nextElement();
@@ -697,7 +697,7 @@ public class PrintfFormat {
 		Enumeration e = vFmt.elements();
 		ConversionSpecification cs = null;
 		char c = 0;
-		StringBuffer sb=new StringBuffer();
+		StringBuilder sb=new StringBuilder();
 		while (e.hasMoreElements()) {
 			cs = (ConversionSpecification)
 			e.nextElement();
@@ -725,7 +725,7 @@ public class PrintfFormat {
 		Enumeration e = vFmt.elements();
 		ConversionSpecification cs = null;
 		char c = 0;
-		StringBuffer sb=new StringBuffer();
+		StringBuilder sb=new StringBuilder();
 		while (e.hasMoreElements()) {
 			cs = (ConversionSpecification)
 			e.nextElement();
@@ -871,7 +871,7 @@ public class PrintfFormat {
 		 * @return s the stored String.
 		 */
 		String getLiteral() {
-			StringBuffer sb=new StringBuffer();
+			StringBuilder sb=new StringBuilder();
 			int i=0;
 			while (i<fmt.length()) {
 				if (fmt.charAt(i)=='\\') {

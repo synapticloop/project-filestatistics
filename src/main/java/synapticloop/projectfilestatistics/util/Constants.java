@@ -31,7 +31,6 @@ public class Constants {
 
 	// list of all included plugins
 	public static final String DEFAULT_PLUGIN_LIST = "NumberTextReporter," +
-			"CumulativeBarTextReporter,PieChartImageReporter," +
-			"CumulativeBarImageReporter,OverviewHtmlReporter";
+			"CumulativeBarTextReporter";
 
 }

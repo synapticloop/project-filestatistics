@@ -1,4 +1,4 @@
-<antlib>
+<antlib xmlns:antcontrib="antlib:pf">
 	<typedef name="report" classname="synapticloop.projectfilestatistics.ant.ReportTask" />
 	<typedef name="list-plugins" classname="synapticloop.projectfilestatistics.ant.ListPluginsTask" />
 </antlib>

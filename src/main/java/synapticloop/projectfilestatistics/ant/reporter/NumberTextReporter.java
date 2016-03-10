@@ -42,7 +42,7 @@ public class NumberTextReporter extends AbstractTextReporter {
 	 * things up.
 	 */
 
-	@SuppressWarnings("unchecked")
+	@Override
 	protected void printToConsole() {
 		if(statisticsBean.getMaxExtensionLength() > maxExtensionLength) {
 			maxExtensionLength = statisticsBean.getMaxExtensionLength();
@@ -85,7 +85,7 @@ public class NumberTextReporter extends AbstractTextReporter {
 		System.out.println();
 
 		// set up the underliner
-		StringBuffer underliner = new StringBuffer();
+		StringBuilder underliner = new StringBuilder();
 		underliner.append(PrintHelper.underline('-', maxExtensionLength + 2) + "  ");
 		underliner.append(PrintHelper.underline('-', lengthMaxFileCount + 2) + "  ");
 		underliner.append(PrintHelper.underline('-', lengthMaxCodeCount + 2) + "  ");
@@ -101,7 +101,7 @@ public class NumberTextReporter extends AbstractTextReporter {
 		TreeSet<String> treeSet = new TreeSet<String>();
 		treeSet.addAll(set);
 
-		Iterator iter = treeSet.iterator(); 
+		Iterator<String> iter = treeSet.iterator(); 
 
 		// go through each of the file extensions and print out the statistics
 		while(iter.hasNext()) {
