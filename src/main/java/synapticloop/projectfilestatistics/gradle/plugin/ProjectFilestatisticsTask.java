@@ -38,7 +38,6 @@ import synapticloop.projectfilestatistics.bean.StatisticsBean;
 import synapticloop.projectfilestatistics.gradle.exception.ProjectFilestatisticsException;
 import synapticloop.projectfilestatistics.reporter.CumulativeBarTextReporter;
 import synapticloop.projectfilestatistics.reporter.NumberTextReporter;
-import synapticloop.projectfilestatistics.reporter.PercentBarTextReporter;
 import synapticloop.projectfilestatistics.util.Constants;
 import synapticloop.projectfilestatistics.util.PropertyManager;
 
@@ -97,74 +96,12 @@ public class ProjectFilestatisticsTask extends DefaultTask {
 			recordFileStatistics(file);
 		}
 
-		// print out the statistics
-//		generatePluginList();
-
 		CumulativeBarTextReporter cumulativeBarTextReporter = new CumulativeBarTextReporter();
 		cumulativeBarTextReporter.print(extension.getOutputDirectory(), statisticsBean);
-		
+
 		NumberTextReporter numberTextReporter = new NumberTextReporter();
 		numberTextReporter.print(extension.getOutputDirectory(), statisticsBean);
-
-		PercentBarTextReporter percentBarTextReporter = new PercentBarTextReporter();
-		percentBarTextReporter.print(extension.getOutputDirectory(), statisticsBean);
-
 	}
-
-//	/**
-//	 * Generate the list of the plugins to be executed.  Plugins _MUST_ inherit
-//	 * from synapticloop.reporter.AbstractReporter.  The plugin name is 
-//	 * instantiated by attempting to load:
-//	 * 	this.getClass().getPackage().getName() + ".reporter." + stringPlugin
-//	 * if that cannot be found, the class 
-//	 * stringPlugin is attempted to be instantiated.
-//	 */
-//	private void generatePluginList() {
-//		findPlugins();
-//		//		findHistoricalPlugins();
-//	}
-//	
-//	private void findPlugins() {
-//		String[] pluginSplit = pluginList.split(",");
-//		Object object = null;
-//		for (int i = 0; i < pluginSplit.length; i++) {
-//			String pluginName = pluginSplit[i].trim();
-//			object = findObject(pluginName);
-//
-//			// If the object is still null
-//			if(null == object) {
-//				System.out.println("WARNING: could not find plugin " + pluginName + " class as either '" + this.getClass().getPackage().getName() + ".reporter." + pluginName + "' or '" + pluginName + "'.  Ignoring...\n");
-//			} else {
-//				if(object instanceof AbstractReporter) {
-//					reporters.add((AbstractReporter)object);
-//				} else {
-//					System.out.println("WARNING: plugin " + pluginName + " is not an instance of " + AbstractReporter.class.getName() + "and will be ignored.");
-//				}
-//			}
-//		}
-//	}
-//
-//	private Object findObject(String pluginName) {
-//		Object object = null;
-//		// try and find a synapticloop plugin
-//		try {
-//			object = this.getClass().getClassLoader().loadClass(this.getClass().getPackage().getName() + ".reporter." + pluginName).newInstance();
-//		} catch (ClassNotFoundException jlcnfex) { // do nothing 
-//		} catch (InstantiationException jliax) { // do nothing
-//		} catch (IllegalAccessException jliaex) { // do nothing
-//		}
-//
-//		// try to find other plugin namespace
-//		if(null == object) {
-//			try {
-//				object = this.getClass().getClassLoader().loadClass(pluginName).newInstance();
-//			} catch (InstantiationException jliex) { // do nothing
-//			} catch (IllegalAccessException jliaex) { // do nothing
-//			} catch (ClassNotFoundException jlcnfex) { // do nothing
-//			}
-//		}
-//		return(object);
-//	}
 
 	/**
 	 * Retrieve the file extension from a file name.  If the file has no
@@ -206,7 +143,6 @@ public class ProjectFilestatisticsTask extends DefaultTask {
 		boolean hasMultiLineCommentStart = (null != multiLineCommentStart);
 		boolean hasMultiLineCommentEnd = (null != multiLineCommentEnd);
 
-		int lineCount = 0;
 		int lineCodeCount = 0;
 		int lineCommentCount = 0;
 		int lineBlankCount = 0;
@@ -225,7 +161,6 @@ public class ProjectFilestatisticsTask extends DefaultTask {
 				boolean thisLine = false;
 				line = bufferedReader.readLine();
 				if (line != null) {
-					lineCount++;
 					lineCodeCount++;
 					line = line.trim();
 

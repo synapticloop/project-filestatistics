@@ -27,7 +27,7 @@ public class ProjectFilestatisticsPluginExtension {
 	private String directory = ".";
 	private boolean ignoreBinary = false;
 	private String propertyFile = null;
-	private String outputDirectory = null;
+	private String outputDirectory = ".";
 
 	public String getDirectory() {
 		return(directory);

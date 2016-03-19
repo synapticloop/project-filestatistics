@@ -17,7 +17,12 @@ buildscript {
 	}
 }
 
-// list all of the plugins for this project
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ *  the plugins we are going to use for this project
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 plugins {
 	id 'java'
 	id 'eclipse'
@@ -32,7 +37,11 @@ plugins {
 
 apply plugin: 'synapticloop.projectFilestatistics'
 
-// textual information for this project
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * Textual information about this project
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 group = 'synapticloop'
 archivesBaseName = 'project-filestatistics'
 description = """generate statistics about the files for the project"""
@@ -43,14 +52,25 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 
-// all of the repositories that this project will use
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * Which repositories we are going to use
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 repositories {
 	mavenLocal()
 	mavenCentral()
 	jcenter()
 }
 
-// now for all of the dependencies
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * The dependencies
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 dependencies {
 	runtime 'synapticloop:simpleusage:1.1.1'
 	runtime 'synapticloop:simplelogger:1.1.0'
@@ -69,7 +89,6 @@ dependencies {
 
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.mockito:mockito-all:1.10.19'
-
 }
 
 // we always want to fail on version conflict
@@ -80,14 +99,26 @@ configurations.all {
 	}
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * Copyrightr plugin configuration
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 copyrightr {
 	copyrightHolder = "Synapticloop"
 	dryRun = false
+	includes = [
+		"src/main/java/**/*.java",
+		"LICENCE.txt"
+	]
 }
 
-def locateJar(lib) {
-	configurations.runtime.findAll {it.getName().contains(lib)}.collect { it.isDirectory() ? it : zipTree(it) }
-}
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * Publishing to various locations
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 github {
 	owner = group
@@ -167,7 +198,7 @@ pluginBundle {
 	]
 
 	plugins {
-		documentrPlugin {
+		projectFilestatisticsPlugin {
 			id = 'synapticloop.project-filestatistics'
 			displayName = """generate statistics about the files for the project"""
 		}
