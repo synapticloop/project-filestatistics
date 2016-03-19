@@ -20,7 +20,19 @@ This plugin outputs the number of lines of
   - comments
   - blank
 
-for all files within the included list
+for all files within the `includes` list (and excluding the files within the `excludes` list)
+
+### How it works
+
+Each file is scanned, line by line and is determined to be one of the following:
+
+  - blank line - either empy, or only containing whitespace
+  - comments - either single or multi line - defined through the properties file
+  - code - anything else remaining
+
+See the section below for adding new definitions or over-riding existing definitions.
+
+
 
 # Gradle plugin usage
 
@@ -64,14 +76,12 @@ Line number report (NumberTextReporter)
 =======================================
    File type     #    Code(      %)    Comment(      %)    Blank(      %)    Total(      %)  
 ------------  ----  ---------------  ------------------  ----------------  ----------------  
-         .MF     1       1(100.00%)          0(  0.00%)        0(  0.00%)        1(  0.02%)  
-       .java    14    4089( 86.36%)        390(  8.24%)      256(  5.41%)     4735( 94.29%)  
-         .md     2      22( 68.75%)          0(  0.00%)       10( 31.25%)       32(  0.64%)  
- .properties     3      75( 46.58%)         52( 32.30%)       34( 21.12%)      161(  3.21%)  
-        .txt     2      29( 90.62%)          0(  0.00%)        3(  9.38%)       32(  0.64%)  
-        .xml     1      44( 72.13%)          8( 13.11%)        9( 14.75%)       61(  1.21%)  
+       .java    13    3982( 86.47%)        383(  8.32%)      240(  5.21%)     4605( 96.02%)  
+         .md     2      46( 68.66%)          0(  0.00%)       21( 31.34%)       67(  1.40%)  
+ .properties     2      44( 51.16%)         23( 26.74%)       19( 22.09%)       86(  1.79%)  
+        .txt     2      35( 92.11%)          0(  0.00%)        3(  7.89%)       38(  0.79%)  
 ------------  ----  ---------------  ------------------  ----------------  ----------------  
-     6 types    23    4260( 84.83%)        450(  8.96%)      312(  6.21%)     5022(100.00%)  
+     4 types    19    4107( 85.63%)        406(  8.47%)      283(  5.90%)     4796(100.00%)  
 ============  ====  ===============  ==================  ================  ================  
 ```
 
@@ -89,19 +99,15 @@ Line number report (CumulativeBarTextReporter)
 ==============================================
    File type  
 ------------  0                   25                  50                   75                  100
-              +--------------------------------------------------------------------------------+++
-         .MF  |################################################################################|||
               +---------------------------------------------------------------------+-------+----+
        .java  |#####################################################################|:::::::|    |
               +-------------------------------------------------------++-------------------------+
          .md  |#######################################################||                         |
-              +-------------------------------------+--------------------------+-----------------+
- .properties  |#####################################|::::::::::::::::::::::::::|                 |
-              +------------------------------------------------------------------------++--------+
-        .txt  |########################################################################||        |
-              +----------------------------------------------------------+----------+------------+
-        .xml  |##########################################################|::::::::::|            |
-              +----------------------------------------------------------+----------+------------+
+              +-----------------------------------------+---------------------+------------------+
+ .properties  |#########################################|:::::::::::::::::::::|                  |
+              +--------------------------------------------------------------------------++------+
+        .txt  |##########################################################################||      |
+              +--------------------------------------------------------------------------++------+
 
 Key:
 ----
@@ -131,10 +137,126 @@ projectFilestatistics {
 
 	// the output directory for the generated statistics
 	outputDirectory = 'src/docs'
+
+	// if you require to over-ride how single and multi-line comments work, or
+	// need to add in some extensions which aren't built in...
+	propertyFile = 'over-ride.properties'
 }
+```
+> see `src/main/resources/project-filestatistics.properties` for the pre-defined types
+
+### Property file over-riding
+
+The over-ride property file allows definitions for existing single and multi-line properties to be over-ridden, or new definitions for single and multi-line comments to be added.
+
+The general form is
+
+```
+# The following defines the single line comment, if the lines starts
+# with the '//' then it is considered a single line comment
+myextension.comment.single=//
+
+# The following define the start and end of a multi-line comment, the
+# line __must__ start with a '/*', and will continue until the end
+# comment '*/' irrespective of where on the line it occurs
+myextension.comment.multi.start=/*
+myextension.comment.multi.end=*/
+```
+
+The in-built extensions and their properties are as follows:
+
 
 
 ```
+#
+# This file details the comments that are applicable to each of the file types
+# is in the format of <file extension>.comment.(single|multi).[start|end]
+#
+
+# normal java commenting
+java.comment.single=//
+java.comment.multi.start=/*
+java.comment.multi.end=*/
+
+# normal groovy commenting
+groovy.comment.single=//
+groovy.comment.multi.start=/*
+groovy.comment.multi.end=*/
+
+# gradle settings - just like groovy
+gradle.comment.single=//
+gradle.comment.multi.start=/*
+gradle.comment.multi.end=*/
+
+# these are actually particular to MySQL
+sql.comment.single=--
+sql.comment.multi.start=/*
+sql.comment.multi.end=*/
+
+# properties files do not have a multi line comment format 
+properties.comment.single=#
+
+# xml doesn't have a different single line comment
+xml.comment.multi.start=<!--
+xml.comment.multi.end=-->
+
+# xsl doesn't have a different single line comment
+xsl.comment.multi.start=<!--
+xsl.comment.multi.end=-->
+
+#xslt - same as xsl
+xslt.comment.multi.start=<!--
+xslt.comment.multi.end=-->
+
+#xsd - same as xsl
+xsd.comment.multi.start=<!--
+xsd.comment.multi.end=-->
+
+#xsd - same as xsl
+tld.comment.multi.start=<!--
+tld.comment.multi.end=-->
+
+# python - no multi line
+py.comment.single=#
+
+# shell - no multi line
+sh.comment.single=#
+
+# html - xml type
+html.comment.multi.start=<!--
+html.comment.multi.end=-->
+
+# htm - xml type
+htm.comment.multi.start=<!--
+htm.comment.multi.end=-->
+
+# javascript - xml type
+js.comment.multi.start=<!--
+js.comment.multi.end=-->
+js.comment.single=//
+
+# jsp - like java
+jsp.comment.single=//
+jsp.comment.multi.start=/*
+jsp.comment.multi.end=*/
+
+# css - multi line only
+css.comment.multi.start=/*
+css.comment.multi.end=*/
+
+# sass/scss
+scss.comment.single=//
+scss.comment.multi.start=/*
+scss.comment.multi.end=*/
+
+# less
+less.comment.single=//
+less.comment.multi.start=/*
+less.comment.multi.end=*/
+
+```
+
+
 
 # Building the Package
 
@@ -272,31 +394,6 @@ You will also need to download the following dependencies:
 
 ### compile dependencies
 
-  - org.apache.ant:ant:1.8.4: (It may be available on one of: [bintray](https://bintray.com/org.apache.ant/maven/ant/1.8.4/view#files/org.apache.ant/ant/1.8.4) [mvn central](http://search.maven.org/#artifactdetails|org.apache.ant|ant|1.8.4|jar))
-  - synapticloop:simpleusage:1.1.1: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/simpleusage/1.1.1/view#files/synapticloop/simpleusage/1.1.1) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|simpleusage|1.1.1|jar))
-  - synapticloop:simplelogger:1.1.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/simplelogger/1.1.0/view#files/synapticloop/simplelogger/1.1.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|simplelogger|1.1.0|jar))
-  - commons-io:commons-io:2.4: (It may be available on one of: [bintray](https://bintray.com/commons-io/maven/commons-io/2.4/view#files/commons-io/commons-io/2.4) [mvn central](http://search.maven.org/#artifactdetails|commons-io|commons-io|2.4|jar))
-  - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar))
-
-
-### runtime dependencies
-
-  - synapticloop:simpleusage:1.1.1: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/simpleusage/1.1.1/view#files/synapticloop/simpleusage/1.1.1) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|simpleusage|1.1.1|jar))
-  - synapticloop:simplelogger:1.1.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/simplelogger/1.1.0/view#files/synapticloop/simplelogger/1.1.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|simplelogger|1.1.0|jar))
-  - commons-io:commons-io:2.4: (It may be available on one of: [bintray](https://bintray.com/commons-io/maven/commons-io/2.4/view#files/commons-io/commons-io/2.4) [mvn central](http://search.maven.org/#artifactdetails|commons-io|commons-io|2.4|jar))
-  - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar))
-
-
-### testCompile dependencies
-
-  - junit:junit:4.12: (It may be available on one of: [bintray](https://bintray.com/junit/maven/junit/4.12/view#files/junit/junit/4.12) [mvn central](http://search.maven.org/#artifactdetails|junit|junit|4.12|jar))
-  - org.mockito:mockito-all:1.10.19: (It may be available on one of: [bintray](https://bintray.com/org.mockito/maven/mockito-all/1.10.19/view#files/org.mockito/mockito-all/1.10.19) [mvn central](http://search.maven.org/#artifactdetails|org.mockito|mockito-all|1.10.19|jar))
-
-
-### testRuntime dependencies
-
-  - junit:junit:4.12: (It may be available on one of: [bintray](https://bintray.com/junit/maven/junit/4.12/view#files/junit/junit/4.12) [mvn central](http://search.maven.org/#artifactdetails|junit|junit|4.12|jar))
-  - org.mockito:mockito-all:1.10.19: (It may be available on one of: [bintray](https://bintray.com/org.mockito/maven/mockito-all/1.10.19/view#files/org.mockito/mockito-all/1.10.19) [mvn central](http://search.maven.org/#artifactdetails|org.mockito|mockito-all|1.10.19|jar))
 
 **NOTE:** You may need to download any dependencies of the above dependencies in turn (i.e. the transitive dependencies)
 

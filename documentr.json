@@ -29,6 +29,10 @@
 
 		{ "type": "file", "value": "src/docs/configuration.md" },
 
+		{ "type": "markup", "value": "\n\n```\n" },
+		{ "type": "file", "value": "src/main/resources/project-filestatistics.properties" },
+		{ "type": "markup", "value": "\n```\n\n" },
+
 		{ "type": "inbuilt", "value": "gradle-build" },
 
 		{ "type": "inbuilt", "value": "publishing-github" },
