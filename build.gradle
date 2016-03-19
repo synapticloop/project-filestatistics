@@ -13,7 +13,7 @@ buildscript {
 	}
 
 	dependencies {
-		classpath 'synapticloop:project-filestatistics:1.0.0'
+		classpath 'synapticloop:project-filestatistics:1.0.2'
 	}
 }
 
@@ -46,7 +46,7 @@ group = 'synapticloop'
 archivesBaseName = 'project-filestatistics'
 description = """generate statistics about the files for the project"""
 
-version = '1.0.0'
+version = '1.0.2'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -208,7 +208,7 @@ pluginBundle {
 
 	plugins {
 		projectFilestatisticsPlugin {
-			id = 'synapticloop.project-filestatistics'
+			id = 'synapticloop.projectFilestatistics'
 			displayName = """generate statistics about the files for the project"""
 		}
 	}

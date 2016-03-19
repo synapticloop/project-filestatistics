@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/synapticloop/project-filestatistics.svg?branch=master)](https://travis-ci.org/synapticloop/project-filestatistics) [![Download](https://api.bintray.com/packages/synapticloop/maven/project-filestatistics/images/download.svg)](https://bintray.com/synapticloop/maven/project-filestatistics/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/project-filestatistics.svg)](https://github.com/synapticloop/project-filestatistics/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-1.0.0-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.projectFilestatistics) 
+[![Build Status](https://travis-ci.org/synapticloop/project-filestatistics.svg?branch=master)](https://travis-ci.org/synapticloop/project-filestatistics) [![Download](https://api.bintray.com/packages/synapticloop/maven/project-filestatistics/images/download.svg)](https://bintray.com/synapticloop/maven/project-filestatistics/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/project-filestatistics.svg)](https://github.com/synapticloop/project-filestatistics/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-1.0.2-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.projectFilestatistics) 
 
 > **This project requires JVM version of at least 1.7**
 
@@ -46,7 +46,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.synapticloop:project-filestatistics:1.0.0"
+    classpath "gradle.plugin.synapticloop:project-filestatistics:1.0.2"
   }
 }
 
@@ -58,7 +58,7 @@ apply plugin: "synapticloop.projectFilestatistics"
 
 ```
 plugins {
-  id "synapticloop.projectFilestatistics" version "1.0.0"
+  id "synapticloop.projectFilestatistics" version "1.0.2"
 }
 ```
 
@@ -76,12 +76,12 @@ Line number report (NumberTextReporter)
 =======================================
    File type     #    Code(      %)    Comment(      %)    Blank(      %)    Total(      %)  
 ------------  ----  ---------------  ------------------  ----------------  ----------------  
-       .java    13    3982( 86.47%)        383(  8.32%)      240(  5.21%)     4605( 96.02%)  
+       .java    13    3982( 86.47%)        383(  8.32%)      240(  5.21%)     4605( 96.14%)  
          .md     2      46( 68.66%)          0(  0.00%)       21( 31.34%)       67(  1.40%)  
- .properties     2      44( 51.16%)         23( 26.74%)       19( 22.09%)       86(  1.79%)  
-        .txt     2      35( 92.11%)          0(  0.00%)        3(  7.89%)       38(  0.79%)  
+ .properties     2      44( 51.16%)         23( 26.74%)       19( 22.09%)       86(  1.80%)  
+        .txt     2      29( 90.62%)          0(  0.00%)        3(  9.38%)       32(  0.67%)  
 ------------  ----  ---------------  ------------------  ----------------  ----------------  
-     4 types    19    4107( 85.63%)        406(  8.47%)      283(  5.90%)     4796(100.00%)  
+     4 types    19    4101( 85.62%)        406(  8.48%)      283(  5.91%)     4790(100.00%)  
 ============  ====  ===============  ==================  ================  ================  
 ```
 
@@ -105,9 +105,9 @@ Line number report (CumulativeBarTextReporter)
          .md  |#######################################################||                         |
               +-----------------------------------------+---------------------+------------------+
  .properties  |#########################################|:::::::::::::::::::::|                  |
-              +--------------------------------------------------------------------------++------+
-        .txt  |##########################################################################||      |
-              +--------------------------------------------------------------------------++------+
+              +------------------------------------------------------------------------++--------+
+        .txt  |########################################################################||        |
+              +------------------------------------------------------------------------++--------+
 
 Key:
 ----
@@ -230,9 +230,9 @@ html.comment.multi.end=-->
 htm.comment.multi.start=<!--
 htm.comment.multi.end=-->
 
-# javascript - xml type
-js.comment.multi.start=<!--
-js.comment.multi.end=-->
+# javascript 
+js.comment.multi.start=/*
+js.comment.multi.end=*/
 js.comment.single=//
 
 # jsp - like java
@@ -358,9 +358,9 @@ This project publishes artefacts to [the gradle plugin portal](https://plugins.g
 
 ```
 dependencies {
-	runtime(group: 'synapticloop', name: 'project-filestatistics', version: '1.0.0', ext: 'jar')
+	runtime(group: 'synapticloop', name: 'project-filestatistics', version: '1.0.2', ext: 'jar')
 
-	compile(group: 'synapticloop', name: 'project-filestatistics', version: '1.0.0', ext: 'jar')
+	compile(group: 'synapticloop', name: 'project-filestatistics', version: '1.0.2', ext: 'jar')
 }
 ```
 
@@ -368,9 +368,9 @@ or, more simply for versions of gradle greater than 2.1
 
 ```
 dependencies {
-	runtime 'synapticloop:project-filestatistics:1.0.0'
+	runtime 'synapticloop:project-filestatistics:1.0.2'
 
-	compile 'synapticloop:project-filestatistics:1.0.0'
+	compile 'synapticloop:project-filestatistics:1.0.2'
 }
 ```
 
@@ -380,7 +380,7 @@ dependencies {
 <dependency>
 	<groupId>synapticloop</groupId>
 	<artifactId>project-filestatistics</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.2</version>
 	<type>jar</type>
 </dependency>
 ```
