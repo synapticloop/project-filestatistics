@@ -30,7 +30,7 @@ plugins {
 	id 'synapticloop.copyrightr' version '1.0.1'
 }
 
-apply plugin: 'synapticloop.project-filestatistics'
+apply plugin: 'synapticloop.projectFilestatistics'
 
 // textual information for this project
 group = 'synapticloop'
@@ -88,27 +88,6 @@ copyrightr {
 def locateJar(lib) {
 	configurations.runtime.findAll {it.getName().contains(lib)}.collect { it.isDirectory() ? it : zipTree(it) }
 }
-
-task fatJar(type: Jar) {
-	classifier = 'all'
-
-	manifest {
-		attributes("Main-Class": "synapticloop.projectfilestatistics.Main")
-	}
-
-	from { locateJar('simpleusage') } { include "**" }
-	from { locateJar('simplelogger') } { include "**" }
-	from { locateJar('commons-io') } { include "**" }
-	from { locateJar('commons-cli') } { include "**" }
-	from { locateJar('json') } { include "**" }
-	from { locateJar('templar') } { include "**" }
-	from { locateJar('markdown_to_asciidoc') } { include "**" }
-
-	from(sourceSets.main.output) { include "**" }
-}
-
-build.finalizedBy(project.tasks.fatJar)
-publishPlugins.finalizedBy(project.tasks.fatJar)
 
 github {
 	owner = group
@@ -178,15 +157,19 @@ bintray {
 }
 
 pluginBundle {
-	website = 'https://github.com/synapticloop/documentr'
-	vcsUrl = 'https://github.com/synapticloop/documentr'
-	description = 'documentation (README.md) generator for projects'
-	tags = ['README', 'documentation', 'generator']
+	website = 'https://github.com/synapticloop/project-filestatistics'
+	vcsUrl = 'https://github.com/synapticloop/project-filestatistics'
+	description = """generate statistics about the files for the project"""
+	tags = [ 
+			'documentation', 
+			'generator', 
+			'statistics'
+	]
 
 	plugins {
 		documentrPlugin {
-			id = 'synapticloop.documentr'
-			displayName = 'Synapticloop Gradle documentr plugin'
+			id = 'synapticloop.project-filestatistics'
+			displayName = """generate statistics about the files for the project"""
 		}
 	}
 }

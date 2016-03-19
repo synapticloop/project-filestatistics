@@ -32,11 +32,12 @@ import java.util.MissingResourceException;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.file.ConfigurableFileTree;
-import org.gradle.api.file.FileTree;
 import org.gradle.api.tasks.TaskAction;
 
 import synapticloop.projectfilestatistics.ant.bean.StatisticsBean;
 import synapticloop.projectfilestatistics.ant.reporter.CumulativeBarTextReporter;
+import synapticloop.projectfilestatistics.ant.reporter.NumberTextReporter;
+import synapticloop.projectfilestatistics.ant.reporter.PercentBarTextReporter;
 import synapticloop.projectfilestatistics.gradle.exception.ProjectFilestatisticsException;
 import synapticloop.projectfilestatistics.util.Constants;
 import synapticloop.projectfilestatistics.util.PropertyManager;
@@ -54,7 +55,6 @@ public class ProjectFilestatisticsTask extends DefaultTask {
 	private boolean ignoreBinary;
 	private List<String> includes;
 	private List<String> excludes;
-	private FileTree asFileTree;
 
 	@TaskAction
 	public void generate() throws ProjectFilestatisticsException {
@@ -74,6 +74,10 @@ public class ProjectFilestatisticsTask extends DefaultTask {
 
 		this.ignoreBinary = extension.getIgnoreBinary();
 		this.includes = extension.getIncludes();
+		if(includes.isEmpty()) {
+			this.includes.add("src/main/**/*.*");
+		}
+
 		this.excludes = extension.getExcludes();
 
 		// check for binary file checking
@@ -89,7 +93,6 @@ public class ProjectFilestatisticsTask extends DefaultTask {
 		map.put(KEY_EXCLUDES, excludes);
 
 		ConfigurableFileTree fileTree = project.fileTree(map);
-		this.asFileTree = fileTree.getAsFileTree();
 		for (File file : fileTree) {
 			recordFileStatistics(file);
 		}
@@ -99,6 +102,13 @@ public class ProjectFilestatisticsTask extends DefaultTask {
 
 		CumulativeBarTextReporter cumulativeBarTextReporter = new CumulativeBarTextReporter();
 		cumulativeBarTextReporter.print(extension.getOutputDirectory(), statisticsBean);
+		
+		NumberTextReporter numberTextReporter = new NumberTextReporter();
+		numberTextReporter.print(extension.getOutputDirectory(), statisticsBean);
+
+		PercentBarTextReporter percentBarTextReporter = new PercentBarTextReporter();
+		percentBarTextReporter.print(extension.getOutputDirectory(), statisticsBean);
+
 	}
 
 //	/**
