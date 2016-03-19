@@ -67,6 +67,7 @@ configurations.all {
 
 copyrightr {
 	copyrightHolder = "Synapticloop"
+	dryRun = false
 }
 
 def locateJar(lib) {

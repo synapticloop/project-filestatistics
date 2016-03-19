@@ -1,7 +1,7 @@
 package synapticloop.projectfilestatistics.ant.reporter;
 
 /*
- * Copyright (c) 2009-2011 Synapticloop.
+ * Copyright (c) 2009-2016 Synapticloop.
  * All rights reserved.
  * 
  * This source code and any derived binaries are covered by the terms and 
