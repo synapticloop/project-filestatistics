@@ -1,4 +1,4 @@
-package synapticloop.projectfilestatistics.ant.bean;
+package synapticloop.projectfilestatistics.bean;
 
 /*
  * Copyright (c) 2009-2016 Synapticloop.

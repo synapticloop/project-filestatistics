@@ -1,4 +1,4 @@
-package synapticloop.projectfilestatistics.ant.reporter;
+package synapticloop.projectfilestatistics.reporter;
 
 /*
  * Copyright (c) 2009-2016 Synapticloop.

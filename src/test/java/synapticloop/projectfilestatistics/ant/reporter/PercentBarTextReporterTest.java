@@ -27,8 +27,8 @@ import org.junit.After;
 
 import org.mockito.Mock;
 
-import synapticloop.projectfilestatistics.ant.bean.StatisticsBean;
-import synapticloop.projectfilestatistics.ant.reporter.PercentBarTextReporter;
+import synapticloop.projectfilestatistics.bean.StatisticsBean;
+import synapticloop.projectfilestatistics.reporter.PercentBarTextReporter;
 
 import static org.mockito.Mockito.*;
 

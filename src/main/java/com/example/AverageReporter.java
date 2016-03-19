@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import synapticloop.projectfilestatistics.ant.reporter.AbstractReporter;
+import synapticloop.projectfilestatistics.reporter.AbstractReporter;
 import synapticloop.projectfilestatistics.util.PrintHelper;
 import synapticloop.projectfilestatistics.util.PrintfFormat;
 

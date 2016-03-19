@@ -37,8 +37,8 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.FileSet;
 
-import synapticloop.projectfilestatistics.ant.bean.StatisticsBean;
-import synapticloop.projectfilestatistics.ant.reporter.AbstractReporter;
+import synapticloop.projectfilestatistics.bean.StatisticsBean;
+import synapticloop.projectfilestatistics.reporter.AbstractReporter;
 import synapticloop.projectfilestatistics.util.Constants;
 import synapticloop.projectfilestatistics.util.PropertyManager;
 

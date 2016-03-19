@@ -1,4 +1,4 @@
-package synapticloop.projectfilestatistics.ant.reporter;
+package synapticloop.projectfilestatistics.reporter;
 
 /*
  * Copyright (c) 2009-2016 Synapticloop.
@@ -24,7 +24,7 @@ import java.util.TreeSet;
 import synapticloop.projectfilestatistics.util.PrintHelper;
 import synapticloop.projectfilestatistics.util.PrintfFormat;
 
-public class PercentBarTextReporter extends AbstractTextReporter {
+public class CumulativeBarTextReporter extends AbstractTextReporter {
 	private static final int NUM_CHARS = 80;
 
 	private static final char POINT_CHAR = '+';
@@ -35,6 +35,7 @@ public class PercentBarTextReporter extends AbstractTextReporter {
 	private static final char COMMENT_CHAR = ':';
 	private static final char BLANK_CHAR = ' ';
 
+
 	@Override
 	protected void printToConsole() {
 		StringBuilder stringBuilder = new StringBuilder();
@@ -42,7 +43,6 @@ public class PercentBarTextReporter extends AbstractTextReporter {
 		if(statisticsBean.getMaxExtensionLength() > maxExtensionLength) {
 			maxExtensionLength = statisticsBean.getMaxExtensionLength();
 		}
-
 		stringBuilder.append("\n");
 		stringBuilder.append(PrintHelper.underlineText("Line number report (" + this.getClass().getSimpleName() + ")" , '=', false));
 		stringBuilder.append("\n");
@@ -83,7 +83,7 @@ public class PercentBarTextReporter extends AbstractTextReporter {
 		stringBuilder.append("  '" + CODE_CHAR + "' code" + "\n");
 		stringBuilder.append("  '" + COMMENT_CHAR + "' comment" + "\n");
 		stringBuilder.append("  '" + BLANK_CHAR + "' blank" + "\n");
-		
+
 		System.out.println(stringBuilder.toString());
 	}
 
@@ -116,8 +116,8 @@ public class PercentBarTextReporter extends AbstractTextReporter {
 		stringBuilder.append(point);
 		stringBuilder.append(generateDuplicateCharacters(blank, numCharsForBlank));
 		stringBuilder.append(point);
-
 		return (stringBuilder.toString());
+
 	}
 
 	private String generatePercentageSpacer() {
@@ -149,7 +149,6 @@ public class PercentBarTextReporter extends AbstractTextReporter {
 		stringBuilder.append("100");
 		return (stringBuilder.toString());
 	}
-
 	/**
 	 * Print the top (or the bottom) of the text graph chart
 	 * 
@@ -157,6 +156,7 @@ public class PercentBarTextReporter extends AbstractTextReporter {
 	 */
 	private String generateGraphSpacerHeader(String fileExtension, char point, char line) {
 		return(generateGraphSpacer(fileExtension, point, line, line, line));
+
 	}
-	
+
 }
