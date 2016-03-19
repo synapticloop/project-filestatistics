@@ -1,8 +1,5 @@
 package synapticloop.projectfilestatistics.reporter;
 
-import java.io.File;
-import java.io.IOException;
-
 /*
  * Copyright (c) 2009-2016 Synapticloop.
  * All rights reserved.
@@ -24,8 +21,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.apache.commons.io.FileUtils;
-
 import synapticloop.projectfilestatistics.util.PrintHelper;
 import synapticloop.projectfilestatistics.util.PrintfFormat;
 
@@ -41,23 +36,8 @@ public class PercentBarTextReporter extends AbstractTextReporter {
 	private static final char BLANK_CHAR = ' ';
 
 	@Override
-	protected void printToConsole() {
-		System.out.println(getStatistics());
-	}
+	protected String generateOutput() {
 
-	protected void printToFile() {
-		File file = new File(outputDirectory);
-		file.mkdirs();
-		
-		try {
-			FileUtils.writeStringToFile(new File(file, this.getClass().getSimpleName() + ".txt"), getStatistics());
-		} catch (IOException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
-		}
-	}
-
-	private String getStatistics() {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		if(statisticsBean.getMaxExtensionLength() > maxExtensionLength) {

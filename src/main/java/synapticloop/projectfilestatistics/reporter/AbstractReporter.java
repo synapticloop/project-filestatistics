@@ -1,5 +1,10 @@
 package synapticloop.projectfilestatistics.reporter;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+
 import synapticloop.projectfilestatistics.bean.StatisticsBean;
 
 public abstract class AbstractReporter {
@@ -22,8 +27,29 @@ public abstract class AbstractReporter {
 		}
 		printToConsole();
 	}
+	/**
+	 * Print out the newly gleaned statistics to the console.  Format the
+	 * output so that it all aligns nicely. 
+	 * 
+	 * <em>Note:</em> Yes, it would have been possible to use java.text.* 
+	 * formatter classes, except for the overhead that is incurred in setting 
+	 * things up.
+	 */
+	private void printToConsole() {
+		System.out.println(generateOutput());
+	}
 
-	protected abstract void printToConsole();
+	private void printToFile() {
+		File file = new File(outputDirectory);
+		file.mkdirs();
 
-	protected abstract void printToFile();
+		try {
+			FileUtils.writeStringToFile(new File(file, this.getClass().getSimpleName() + ".txt"), generateOutput());
+		} catch (IOException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+	}
+
+	protected abstract String generateOutput();
 }

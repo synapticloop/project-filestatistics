@@ -19,7 +19,7 @@ package synapticloop.projectfilestatistics.reporter;
 
 import synapticloop.projectfilestatistics.util.PrintfFormat;
 
-public class AbstractTextReporter extends AbstractReporter {
+public abstract class AbstractTextReporter extends AbstractReporter {
 	protected static final String FILE_TYPE_HEADING = "File type";
 
 	// values for totals
@@ -41,12 +41,5 @@ public class AbstractTextReporter extends AbstractReporter {
 	}
 
 	@Override
-	protected void printToConsole() {
-		// do nothing
-	}
-
-	@Override
-	protected void printToFile() {
-		// do nothing
-	}
+	protected abstract String generateOutput();
 }

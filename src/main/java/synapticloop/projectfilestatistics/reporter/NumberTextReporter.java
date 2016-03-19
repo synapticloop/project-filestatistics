@@ -1,8 +1,5 @@
 package synapticloop.projectfilestatistics.reporter;
 
-import java.io.File;
-import java.io.IOException;
-
 /*
  * Copyright (c) 2009-2016 Synapticloop.
  * All rights reserved.
@@ -24,8 +21,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.apache.commons.io.FileUtils;
-
 import synapticloop.projectfilestatistics.util.PrintHelper;
 import synapticloop.projectfilestatistics.util.PrintfFormat;
 
@@ -37,35 +32,8 @@ public class NumberTextReporter extends AbstractTextReporter {
 	private static final String LINE_CODE_COUNT_HEADING = "Code(      %)";
 	private static final String LINE_BLANK_COUNT_HEADING = "Blank(      %)";
 
-
 	@Override
-	protected void printToFile() {
-		File file = new File(outputDirectory);
-		file.mkdirs();
-
-		try {
-			FileUtils.writeStringToFile(new File(file, this.getClass().getSimpleName() + ".txt"), getStatistics());
-		} catch (IOException ex) {
-			// TODO Auto-generated catch block
-			ex.printStackTrace();
-		}
-	}
-
-	/**
-	 * Print out the newly gleaned statistics to the console.  Format the
-	 * output so that it all aligns nicely. 
-	 * 
-	 * <em>Note:</em> Yes, it would have been possible to use java.text.* 
-	 * formatter classes, except for the overhead that is incurred in setting 
-	 * things up.
-	 */
-
-	@Override
-	protected void printToConsole() {
-		System.out.println(getStatistics());
-	}
-
-	private String getStatistics() {
+	protected String generateOutput() {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		if(statisticsBean.getMaxExtensionLength() > maxExtensionLength) {
