@@ -4,6 +4,19 @@
  * templating language.
  */
 
+buildscript {
+	repositories {
+		mavenLocal()
+		maven {
+			url "https://plugins.gradle.org/"
+		}
+	}
+
+	dependencies {
+		classpath 'synapticloop:project-filestatistics:1.0.0'
+	}
+}
+
 // list all of the plugins for this project
 plugins {
 	id 'java'
@@ -16,6 +29,8 @@ plugins {
 	id 'synapticloop.documentr' version '1.3.4'
 	id 'synapticloop.copyrightr' version '1.0.1'
 }
+
+apply plugin: 'synapticloop.project-filestatistics'
 
 // textual information for this project
 group = 'synapticloop'

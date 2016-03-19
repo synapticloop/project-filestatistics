@@ -87,6 +87,7 @@ public class PropertyManager {
 	 * 
 	 * @param defaultProperties the default property file location
 	 * @param overrideProperties the over ride property file location
+	 * 
 	 * @throws MissingResourceException if the default properties cannot be found
 	 */
 	public void initialise(String defaultProperties, String overrideProperties) throws MissingResourceException {
@@ -117,6 +118,5 @@ public class PropertyManager {
 		} 
 
 		isInitialised = true;
-		
 	}
 }
