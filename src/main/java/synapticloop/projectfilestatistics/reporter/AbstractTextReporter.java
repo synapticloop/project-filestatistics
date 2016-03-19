@@ -40,10 +40,12 @@ public class AbstractTextReporter extends AbstractReporter {
 		return (stringBuilder.toString());
 	}
 
+	@Override
 	protected void printToConsole() {
 		// do nothing
 	}
 
+	@Override
 	protected void printToFile() {
 		// do nothing
 	}

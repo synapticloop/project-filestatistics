@@ -1,5 +1,8 @@
 package synapticloop.projectfilestatistics.reporter;
 
+import java.io.File;
+import java.io.IOException;
+
 /*
  * Copyright (c) 2009-2016 Synapticloop.
  * All rights reserved.
@@ -21,6 +24,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.io.FileUtils;
+
 import synapticloop.projectfilestatistics.util.PrintHelper;
 import synapticloop.projectfilestatistics.util.PrintfFormat;
 
@@ -33,6 +38,19 @@ public class NumberTextReporter extends AbstractTextReporter {
 	private static final String LINE_BLANK_COUNT_HEADING = "Blank(      %)";
 
 
+	@Override
+	protected void printToFile() {
+		File file = new File(outputDirectory);
+		file.mkdirs();
+
+		try {
+			FileUtils.writeStringToFile(new File(file, this.getClass().getSimpleName() + ".txt"), getStatistics());
+		} catch (IOException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+	}
+
 	/**
 	 * Print out the newly gleaned statistics to the console.  Format the
 	 * output so that it all aligns nicely. 
@@ -44,6 +62,12 @@ public class NumberTextReporter extends AbstractTextReporter {
 
 	@Override
 	protected void printToConsole() {
+		System.out.println(getStatistics());
+	}
+
+	private String getStatistics() {
+		StringBuilder stringBuilder = new StringBuilder();
+
 		if(statisticsBean.getMaxExtensionLength() > maxExtensionLength) {
 			maxExtensionLength = statisticsBean.getMaxExtensionLength();
 		}
@@ -71,18 +95,20 @@ public class NumberTextReporter extends AbstractTextReporter {
 			lengthMaxBlankCount = LINE_BLANK_COUNT_HEADING.length();
 		}
 
-		System.out.println();
+		stringBuilder.append("\n");
 		// print out the heading
-		System.out.println(PrintHelper.underlineText("Line number report (" + this.getClass().getSimpleName() + ")" , '=', false));
+		stringBuilder.append(PrintHelper.underlineText("Line number report (" + this.getClass().getSimpleName() + ")" , '=', false));
+		stringBuilder.append("\n");
 
 		// print out the row headings
-		System.out.print(printHeading(maxExtensionLength + 2, FILE_TYPE_HEADING));
-		System.out.print(printHeading(lengthMaxFileCount + 2, "#"));
-		System.out.print(printHeading(lengthMaxCodeCount + 2, LINE_CODE_COUNT_HEADING));
-		System.out.print(printHeading(lengthMaxCommentCount + 2, LINE_COMMENT_COUNT_HEADING));
-		System.out.print(printHeading(lengthMaxBlankCount + 2, LINE_BLANK_COUNT_HEADING));
-		System.out.print(printHeading(lengthMaxLineCount + 2, LINE_TOTAL_COUNT_HEADING));
-		System.out.println();
+		stringBuilder.append(printHeading(maxExtensionLength + 2, FILE_TYPE_HEADING));
+		stringBuilder.append(printHeading(lengthMaxFileCount + 2, "#"));
+		stringBuilder.append(printHeading(lengthMaxCodeCount + 2, LINE_CODE_COUNT_HEADING));
+		stringBuilder.append(printHeading(lengthMaxCommentCount + 2, LINE_COMMENT_COUNT_HEADING));
+		stringBuilder.append(printHeading(lengthMaxBlankCount + 2, LINE_BLANK_COUNT_HEADING));
+		stringBuilder.append(printHeading(lengthMaxLineCount + 2, LINE_TOTAL_COUNT_HEADING));
+		stringBuilder.append("\n");
+
 
 		// set up the underliner
 		StringBuilder underliner = new StringBuilder();
@@ -92,7 +118,8 @@ public class NumberTextReporter extends AbstractTextReporter {
 		underliner.append(PrintHelper.underline('-', lengthMaxCommentCount + 2) + "  ");
 		underliner.append(PrintHelper.underline('-', lengthMaxBlankCount + 2) + "  ");
 		underliner.append(PrintHelper.underline('-', lengthMaxLineCount + 2) + "  ");
-		System.out.println(underliner);
+		stringBuilder.append(underliner);
+		stringBuilder.append("\n");
 
 
 		Set<String> set = statisticsBean.getHashMapTotalFileCount().keySet();
@@ -107,55 +134,58 @@ public class NumberTextReporter extends AbstractTextReporter {
 		while(iter.hasNext()) {
 			String key = (String)iter.next();
 			// The file type i.e. the extension
-			System.out.print(new PrintfFormat("%" + (maxExtensionLength + 2) + "s  ").sprintf("." + key));
+			stringBuilder.append(new PrintfFormat("%" + (maxExtensionLength + 2) + "s  ").sprintf("." + key));
 
 			// the # of files
-			System.out.print(new PrintfFormat("%" + (lengthMaxFileCount + 2) + "i  ").sprintf(statisticsBean.getHashMapTotalFileCount().get(key)));
+			stringBuilder.append(new PrintfFormat("%" + (lengthMaxFileCount + 2) + "i  ").sprintf(statisticsBean.getHashMapTotalFileCount().get(key)));
 
 			// the # of lines of code and the percentages
-			generateSingleStatistic(lengthMaxCodeCount - 7, statisticsBean.getHashMapLineCodeCount().get(key).intValue(), statisticsBean.getHashMapTotalLineCount().get(key).intValue());
+			stringBuilder.append(generateSingleStatistic(lengthMaxCodeCount - 7, statisticsBean.getHashMapLineCodeCount().get(key).intValue(), statisticsBean.getHashMapTotalLineCount().get(key).intValue()));
 
 
 			// the # of lines of comments and the percentages
-			generateSingleStatistic(lengthMaxCommentCount -7, statisticsBean.getHashMapLineCommentCount().get(key).intValue(), statisticsBean.getHashMapTotalLineCount().get(key).intValue());
+			stringBuilder.append(generateSingleStatistic(lengthMaxCommentCount -7, statisticsBean.getHashMapLineCommentCount().get(key).intValue(), statisticsBean.getHashMapTotalLineCount().get(key).intValue()));
 
 			// the # of blank lines and the percentages
-			generateSingleStatistic(lengthMaxBlankCount -7, statisticsBean.getHashMapLineBlankCount().get(key).intValue(), statisticsBean.getHashMapTotalLineCount().get(key).intValue());
+			stringBuilder.append(generateSingleStatistic(lengthMaxBlankCount -7, statisticsBean.getHashMapLineBlankCount().get(key).intValue(), statisticsBean.getHashMapTotalLineCount().get(key).intValue()));
 
 			// the total # of lines and the percentages
-			generateSingleStatistic(lengthMaxLineCount - 7, statisticsBean.getHashMapTotalLineCount().get(key).intValue(), statisticsBean.getTotalLineCount());
-			System.out.println();
-		}  
+			stringBuilder.append(generateSingleStatistic(lengthMaxLineCount - 7, statisticsBean.getHashMapTotalLineCount().get(key).intValue(), statisticsBean.getTotalLineCount()));
+			stringBuilder.append("\n");
+		}
 
 		// more underlining
-		System.out.println(underliner);
+		stringBuilder.append(underliner);
+		stringBuilder.append("\n");
 
 		// the summary statistics
 		// the number of different file types
-		System.out.print(new PrintfFormat("%" + (maxExtensionLength - 4) + "i types  ").sprintf(statisticsBean.getHashMapTotalFileCount().keySet().size()));
+		stringBuilder.append(new PrintfFormat("%" + (maxExtensionLength - 4) + "i types  ").sprintf(statisticsBean.getHashMapTotalFileCount().keySet().size()));
 
 		// the total number of files
-		System.out.print(new PrintfFormat("%" + (lengthMaxFileCount + 2) + "i  ").sprintf(statisticsBean.getTotalFileCount()));
+		stringBuilder.append(new PrintfFormat("%" + (lengthMaxFileCount + 2) + "i  ").sprintf(statisticsBean.getTotalFileCount()));
 
 		// the total number of lines of code and the percentages
-		generateSingleStatistic(lengthMaxCodeCount -7, statisticsBean.getTotalLineCodeCount(), statisticsBean.getTotalLineCount());
-		
+		stringBuilder.append(generateSingleStatistic(lengthMaxCodeCount -7, statisticsBean.getTotalLineCodeCount(), statisticsBean.getTotalLineCount()));
+
 
 		// the total number of lines of comment and the percentages
-		generateSingleStatistic(lengthMaxCommentCount -7, statisticsBean.getTotalLineCommentCount(), statisticsBean.getTotalLineCount());
+		stringBuilder.append(generateSingleStatistic(lengthMaxCommentCount -7, statisticsBean.getTotalLineCommentCount(), statisticsBean.getTotalLineCount()));
 
 		// the total number of blank lines and the percentages
-		generateSingleStatistic(lengthMaxBlankCount -7, statisticsBean.getTotalLineBlankCount(), statisticsBean.getTotalLineCount());
+		stringBuilder.append(generateSingleStatistic(lengthMaxBlankCount -7, statisticsBean.getTotalLineBlankCount(), statisticsBean.getTotalLineCount()));
 
 		// the total number of lines and the percentages
-		generateSingleStatistic(lengthMaxLineCount - 7, statisticsBean.getTotalLineCount(), statisticsBean.getTotalLineCount());
-		
-		System.out.println();
+		stringBuilder.append(generateSingleStatistic(lengthMaxLineCount - 7, statisticsBean.getTotalLineCount(), statisticsBean.getTotalLineCount()));
+
+		stringBuilder.append("\n");
 
 		// a double underliner to complete things
-		System.out.println(underliner.toString().replace("-", "="));
-	}
+		stringBuilder.append(underliner.toString().replace("-", "="));
+		stringBuilder.append("\n");
 
+		return(stringBuilder.toString());
+	}
 	/**
 	 * Print out a single statistic in the format nnn(%%%.%%)
 	 * 
@@ -163,8 +193,10 @@ public class NumberTextReporter extends AbstractTextReporter {
 	 * @param number the actual count
 	 * @param totalNumber the total count
 	 */
-	private void generateSingleStatistic(int numberSpace, int number, int totalNumber) {
-		System.out.print(new PrintfFormat("%" + numberSpace + "i").sprintf(number));
-		System.out.print(new PrintfFormat("(%6.2f%%)  ").sprintf((number*100.00)/totalNumber));
+	private String generateSingleStatistic(int numberSpace, int number, int totalNumber) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(new PrintfFormat("%" + numberSpace + "i").sprintf(number));
+		stringBuilder.append(new PrintfFormat("(%6.2f%%)  ").sprintf((number*100.00)/totalNumber));
+		return(stringBuilder.toString());
 	}
 }
