@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/synapticloop/project-filestatistics.svg?branch=master)](https://travis-ci.org/synapticloop/project-filestatistics) [![Download](https://api.bintray.com/packages/synapticloop/maven/project-filestatistics/images/download.svg)](https://bintray.com/synapticloop/maven/project-filestatistics/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/project-filestatistics.svg)](https://github.com/synapticloop/project-filestatistics/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-1.0.0-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.documentr) 
+[![Build Status](https://travis-ci.org/synapticloop/project-filestatistics.svg?branch=master)](https://travis-ci.org/synapticloop/project-filestatistics) [![Download](https://api.bintray.com/packages/synapticloop/maven/project-filestatistics/images/download.svg)](https://bintray.com/synapticloop/maven/project-filestatistics/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/project-filestatistics.svg)](https://github.com/synapticloop/project-filestatistics/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-1.0.0-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.projectFilestatistics) 
 
 > **This project requires JVM version of at least 1.7**
 
@@ -12,7 +12,129 @@
 > generate statistics about the files for the project
 
 
-usage.md.templar
+# Overview
+
+This plugin outputs the number of lines of 
+
+  - code
+  - comments
+  - blank
+
+for all files within the included list
+
+# Gradle plugin usage
+
+## Build script snippet for use in all Gradle versions:
+
+```
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "gradle.plugin.synapticloop:project-filestatistics:1.0.0"
+  }
+}
+
+apply plugin: "synapticloop.projectFilestatistics"
+```
+
+
+## Build script snippet for new, incubating, plugin mechanism introduced in Gradle 2.1:
+
+```
+plugins {
+  id "synapticloop.projectFilestatistics" version "1.0.0"
+}
+```
+
+
+
+# Example output for this project...
+
+Number of files and their break-up of types of lines
+
+
+
+```
+
+Line number report (NumberTextReporter)
+=======================================
+   File type     #    Code(      %)    Comment(      %)    Blank(      %)    Total(      %)  
+------------  ----  ---------------  ------------------  ----------------  ----------------  
+         .MF     1       1(100.00%)          0(  0.00%)        0(  0.00%)        1(  0.02%)  
+       .java    14    4089( 86.36%)        390(  8.24%)      256(  5.41%)     4735( 94.29%)  
+         .md     2      22( 68.75%)          0(  0.00%)       10( 31.25%)       32(  0.64%)  
+ .properties     3      75( 46.58%)         52( 32.30%)       34( 21.12%)      161(  3.21%)  
+        .txt     2      29( 90.62%)          0(  0.00%)        3(  9.38%)       32(  0.64%)  
+        .xml     1      44( 72.13%)          8( 13.11%)        9( 14.75%)       61(  1.21%)  
+------------  ----  ---------------  ------------------  ----------------  ----------------  
+     6 types    23    4260( 84.83%)        450(  8.96%)      312(  6.21%)     5022(100.00%)  
+============  ====  ===============  ==================  ================  ================  
+```
+
+> see `src/docs/NumberTextReporter.txt`
+
+
+
+A *quasi*-graphical representation of the percentages of types of line
+
+
+
+```
+
+Line number report (CumulativeBarTextReporter)
+==============================================
+   File type  
+------------  0                   25                  50                   75                  100
+              +--------------------------------------------------------------------------------+++
+         .MF  |################################################################################|||
+              +---------------------------------------------------------------------+-------+----+
+       .java  |#####################################################################|:::::::|    |
+              +-------------------------------------------------------++-------------------------+
+         .md  |#######################################################||                         |
+              +-------------------------------------+--------------------------+-----------------+
+ .properties  |#####################################|::::::::::::::::::::::::::|                 |
+              +------------------------------------------------------------------------++--------+
+        .txt  |########################################################################||        |
+              +----------------------------------------------------------+----------+------------+
+        .xml  |##########################################################|::::::::::|            |
+              +----------------------------------------------------------+----------+------------+
+
+Key:
+----
+  '#' code
+  ':' comment
+  ' ' blank
+```
+
+> see `src/docs/CumulativeBarTextReporter.txt`
+
+# Configuration
+
+The plugin may be configured with the following properties:
+
+```
+projectFilestatistics {
+	// the files to include in the generation of the statistics
+	includes = [
+		"src/main/**/*.*",
+		"src/docs/**/*.*"
+	]
+
+	// the files to exlude from the generation
+	excludes = [
+	
+	]
+
+	// the output directory for the generated statistics
+	outputDirectory = 'src/docs'
+}
+
+
+```
 
 # Building the Package
 
@@ -31,75 +153,6 @@ From the root of the project, simply run
 This will compile and assemble the artefacts into the `build/libs/` directory.
 
 Note that this may also run tests (if applicable see the Testing notes)
-
-# Logging - slf4j
-
-slf4j is the logging framework used for this project.  In order to set up a logging framework with this project, sample configurations are below:
-
-## Log4j
-
-
-You will need to include dependencies for this - note that the versions may need to be updated.
-
-### Maven
-
-```
-<dependency>
-	<groupId>org.apache.logging.log4j</groupId>
-	<artifactId>log4j-slf4j-impl</artifactId>
-	<version>2.5</version>
-	<scope>runtime</scope>
-</dependency>
-
-<dependency>
-	<groupId>org.apache.logging.log4j</groupId>
-	<artifactId>log4j-core</artifactId>
-	<version>2.5</version>
-	<scope>runtime</scope>
-</dependency>
-
-```
-
-### Gradle &lt; 2.1
-
-```
-dependencies {
-	...
-	runtime(group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.5', ext: 'jar')
-	runtime(group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.5', ext: 'jar')
-	...
-}
-```
-### Gradle &gt;= 2.1
-
-```
-dependencies {
-	...
-	runtime 'org.apache.logging.log4j:log4j-slf4j-impl:2.5'
-	runtime 'org.apache.logging.log4j:log4j-core:2.5'
-	...
-}
-```
-
-
-### Setting up the logging:
-
-A sample `log4j2.xml` is below:
-
-```
-<Configuration status="WARN">
-	<Appenders>
-		<Console name="Console" target="SYSTEM_OUT">
-			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-		</Console>
-	</Appenders>
-	<Loggers>
-		<Root level="trace">
-			<AppenderRef ref="Console"/>
-		</Root>
-	</Loggers>
-</Configuration>
-```
 
 # Artefact Publishing - Github
 
@@ -173,6 +226,12 @@ repositories {
 }
 ```
 
+# Artefact Publishing - gradle plugin portal
+
+This project publishes artefacts to [the gradle plugin portal](https://plugins.gradle.org/)
+
+> Note that the latest version can be found [https://plugins.gradle.org/plugin/synapticloop.projectFilestatistics](https://plugins.gradle.org/plugin/synapticloop.projectFilestatistics)
+
 ## Dependencies - Gradle
 
 ```
@@ -213,53 +272,33 @@ You will also need to download the following dependencies:
 
 ### compile dependencies
 
-  - org.apache.ant:ant:1.8.4: (It may be available on one of: [bintray](https://bintray.com/org.apache.ant/maven/ant/1.8.4/view#files/org.apache.ant/ant/1.8.4) [mvn central](http://search.maven.org/#artifactdetails|org.apache.ant|ant|1.8.4|jar)
-  - synapticloop:simpleusage:1.1.1: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/simpleusage/1.1.1/view#files/synapticloop/simpleusage/1.1.1) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|simpleusage|1.1.1|jar)
-  - synapticloop:simplelogger:1.1.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/simplelogger/1.1.0/view#files/synapticloop/simplelogger/1.1.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|simplelogger|1.1.0|jar)
-  - commons-io:commons-io:2.4: (It may be available on one of: [bintray](https://bintray.com/commons-io/maven/commons-io/2.4/view#files/commons-io/commons-io/2.4) [mvn central](http://search.maven.org/#artifactdetails|commons-io|commons-io|2.4|jar)
-  - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar)
+  - org.apache.ant:ant:1.8.4: (It may be available on one of: [bintray](https://bintray.com/org.apache.ant/maven/ant/1.8.4/view#files/org.apache.ant/ant/1.8.4) [mvn central](http://search.maven.org/#artifactdetails|org.apache.ant|ant|1.8.4|jar))
+  - synapticloop:simpleusage:1.1.1: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/simpleusage/1.1.1/view#files/synapticloop/simpleusage/1.1.1) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|simpleusage|1.1.1|jar))
+  - synapticloop:simplelogger:1.1.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/simplelogger/1.1.0/view#files/synapticloop/simplelogger/1.1.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|simplelogger|1.1.0|jar))
+  - commons-io:commons-io:2.4: (It may be available on one of: [bintray](https://bintray.com/commons-io/maven/commons-io/2.4/view#files/commons-io/commons-io/2.4) [mvn central](http://search.maven.org/#artifactdetails|commons-io|commons-io|2.4|jar))
+  - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar))
 
 
 ### runtime dependencies
 
-  - synapticloop:simpleusage:1.1.1: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/simpleusage/1.1.1/view#files/synapticloop/simpleusage/1.1.1) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|simpleusage|1.1.1|jar)
-  - synapticloop:simplelogger:1.1.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/simplelogger/1.1.0/view#files/synapticloop/simplelogger/1.1.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|simplelogger|1.1.0|jar)
-  - commons-io:commons-io:2.4: (It may be available on one of: [bintray](https://bintray.com/commons-io/maven/commons-io/2.4/view#files/commons-io/commons-io/2.4) [mvn central](http://search.maven.org/#artifactdetails|commons-io|commons-io|2.4|jar)
-  - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar)
+  - synapticloop:simpleusage:1.1.1: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/simpleusage/1.1.1/view#files/synapticloop/simpleusage/1.1.1) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|simpleusage|1.1.1|jar))
+  - synapticloop:simplelogger:1.1.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/simplelogger/1.1.0/view#files/synapticloop/simplelogger/1.1.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|simplelogger|1.1.0|jar))
+  - commons-io:commons-io:2.4: (It may be available on one of: [bintray](https://bintray.com/commons-io/maven/commons-io/2.4/view#files/commons-io/commons-io/2.4) [mvn central](http://search.maven.org/#artifactdetails|commons-io|commons-io|2.4|jar))
+  - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar))
 
 
 ### testCompile dependencies
 
-  - junit:junit:4.12: (It may be available on one of: [bintray](https://bintray.com/junit/maven/junit/4.12/view#files/junit/junit/4.12) [mvn central](http://search.maven.org/#artifactdetails|junit|junit|4.12|jar)
-  - org.mockito:mockito-all:1.10.19: (It may be available on one of: [bintray](https://bintray.com/org.mockito/maven/mockito-all/1.10.19/view#files/org.mockito/mockito-all/1.10.19) [mvn central](http://search.maven.org/#artifactdetails|org.mockito|mockito-all|1.10.19|jar)
+  - junit:junit:4.12: (It may be available on one of: [bintray](https://bintray.com/junit/maven/junit/4.12/view#files/junit/junit/4.12) [mvn central](http://search.maven.org/#artifactdetails|junit|junit|4.12|jar))
+  - org.mockito:mockito-all:1.10.19: (It may be available on one of: [bintray](https://bintray.com/org.mockito/maven/mockito-all/1.10.19/view#files/org.mockito/mockito-all/1.10.19) [mvn central](http://search.maven.org/#artifactdetails|org.mockito|mockito-all|1.10.19|jar))
 
 
 ### testRuntime dependencies
 
-  - junit:junit:4.12: (It may be available on one of: [bintray](https://bintray.com/junit/maven/junit/4.12/view#files/junit/junit/4.12) [mvn central](http://search.maven.org/#artifactdetails|junit|junit|4.12|jar)
-  - org.mockito:mockito-all:1.10.19: (It may be available on one of: [bintray](https://bintray.com/org.mockito/maven/mockito-all/1.10.19/view#files/org.mockito/mockito-all/1.10.19) [mvn central](http://search.maven.org/#artifactdetails|org.mockito|mockito-all|1.10.19|jar)
+  - junit:junit:4.12: (It may be available on one of: [bintray](https://bintray.com/junit/maven/junit/4.12/view#files/junit/junit/4.12) [mvn central](http://search.maven.org/#artifactdetails|junit|junit|4.12|jar))
+  - org.mockito:mockito-all:1.10.19: (It may be available on one of: [bintray](https://bintray.com/org.mockito/maven/mockito-all/1.10.19/view#files/org.mockito/mockito-all/1.10.19) [mvn central](http://search.maven.org/#artifactdetails|org.mockito|mockito-all|1.10.19|jar))
 
 **NOTE:** You may need to download any dependencies of the above dependencies in turn (i.e. the transitive dependencies)
-
-# Artefact Publishing - gradle plugin portal
-
-This project publishes artefacts to [the gradle plugin portal](https://plugins.gradle.org/)
-
-> Note that the latest version can be found [https://plugins.gradle.org/plugin/synapticloop.documentr](https://plugins.gradle.org/plugin/synapticloop.documentr)
-
-
-# All-In-One
-
-This project's artefact output is an 'all in one' jar which includes all runtime dependencies.
-
-This should appear in the artefact repository along with the compiled code, as a convention, this is usually appended with an `-all` classifier
-
-For example:
-
-`project-filestatistics-1.0.0.jar -> project-filestatistics-1.0.0-all.jar`
-
-
-
 
 # License
 

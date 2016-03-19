@@ -1,34 +1,45 @@
 {
 	"context": {
-		"pluginId": "synapticloop.documentr"
+		"pluginId": "synapticloop.projectFilestatistics"
 	},
 	"templates": [
-		{ "type":"inbuilt", "value":"badge-travis-ci" },
-		{ "type":"inbuilt", "value":"badge-bintray" },
-		{ "type":"inbuilt", "value":"badge-shield-io-github-release" },
-		{ "type":"inbuilt", "value":"badge-shield-io-gradle-plugin" },
+		{ "type": "inbuilt", "value": "badge-travis-ci" },
+		{ "type": "inbuilt", "value": "badge-bintray" },
+		{ "type": "inbuilt", "value": "badge-shield-io-github-release" },
+		{ "type": "inbuilt", "value": "badge-shield-io-gradle-plugin" },
 
-		{ "type":"inbuilt", "value":"jvm-compatability" },
-		{ "type":"inbuilt", "value":"project-name" },
-		{ "type":"inbuilt", "value":"project-description" },
+		{ "type": "inbuilt", "value": "jvm-compatability" },
+		{ "type": "inbuilt", "value": "project-name" },
+		{ "type": "inbuilt", "value": "project-description" },
 
-		{ "type":"file", "value":"src/docs/usage.md.templar" },
+		{ "type": "file", "value": "src/docs/overview.md" },
 
-		{ "type":"inbuilt", "value":"gradle-build" },
+		{ "type": "inbuilt", "value": "gradle-plugin-usage" },
 
-		{ "type":"inbuilt", "value":"logging-slf4j" },
+		{ "type": "markup", "value": "\n\n# Example output for this project...\n\nNumber of files and their break-up of types of lines\n\n" },
 
-		{ "type":"inbuilt", "value":"publishing-github" },
-		{ "type":"inbuilt", "value":"publishing-bintray" },
+		{ "type": "markup", "value": "\n\n```\n" },
+		{ "type": "file", "value": "src/docs/NumberTextReporter.txt" },
+		{ "type": "markup", "value": "```\n\n> see `src/docs/NumberTextReporter.txt`\n\n" },
 
-		{ "type":"inbuilt", "value":"dependencies" },
+		{ "type": "markup", "value": "\n\nA *quasi*-graphical representation of the percentages of types of line\n\n" },
+		{ "type": "markup", "value": "\n\n```\n" },
+		{ "type": "file", "value": "src/docs/CumulativeBarTextReporter.txt" },
+		{ "type": "markup", "value": "```\n\n> see `src/docs/CumulativeBarTextReporter.txt`\n\n" },
 
-		{ "type":"inbuilt", "value":"publishing-gradle-plugin" },
+		{ "type": "file", "value": "src/docs/configuration.md" },
 
-		{ "type":"inbuilt", "value":"publishing-all-in-one-jar" },
+		{ "type": "inbuilt", "value": "gradle-build" },
 
-		{ "type":"inbuilt", "value":"license-mit" },
+		{ "type": "inbuilt", "value": "publishing-github" },
+		{ "type": "inbuilt", "value": "publishing-bintray" },
 
-		{ "type":"inbuilt", "value":"attribution" }
+		{ "type": "inbuilt", "value": "publishing-gradle-plugin" },
+
+		{ "type": "inbuilt", "value": "dependencies" },
+
+		{ "type": "inbuilt", "value": "license-mit" },
+
+		{ "type": "inbuilt", "value": "attribution" }
 	]
 }
