@@ -3,19 +3,19 @@ package synapticloop.projectfilestatistics;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ProjectFileStatisticsTest {
-	private ProjectFileStatistics projectFileStatistics;
+public class MainTest {
+	private Main projectFileStatistics;
 
 	@Before
 	public void setup() {
-		projectFileStatistics = new ProjectFileStatistics();
+		projectFileStatistics = new Main();
 	}
 
 	@Test
 	public void testOutput() {
-		ProjectFileStatistics.main(new String[0]);
-		ProjectFileStatistics.main(new String[] {"hello", "baby"});
-		ProjectFileStatistics.main(new String[] {"something"});
+		Main.main(new String[0]);
+		Main.main(new String[] {"hello", "baby"});
+		Main.main(new String[] {"something"});
 	}
 
 //	@Test

@@ -1,7 +1,7 @@
-package synapticloop.projectfilestatistics.ant;
+package synapticloop.projectfilestatistics.plugin;
 
 /*
- * Copyright (c) 2011 Synapticloop.
+ * Copyright (c) 2011-2015 Synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -17,18 +17,33 @@ package synapticloop.projectfilestatistics.ant;
  * under the Licence.
  */
 
-import org.apache.tools.ant.Task;
+public class ProjectFilestatisticsPluginExtension {
+	private boolean verbose = false;
 
-import synapticloop.projectfilestatistics.util.Constants;
+	private String directory = ".";
+	private String extension = "md";
 
-public class ListPluginsTask extends Task {
-	public void execute() {
-		String[] plugins = Constants.DEFAULT_PLUGIN_LIST.split(",");
-		System.out.println("Available built-in plugin names:");
-		for (int i = 0; i < plugins.length; i++) {
-			String plugin = plugins[i];
-			System.out.println("\t" + plugin);
-		}
+	public String getDirectory() {
+		return(directory);
 	}
 
+	public void setDirectory(String directory) {
+		this.directory = directory;
+	}
+
+	public boolean getVerbose() {
+		return this.verbose;
+	}
+
+	public void setVerbose(boolean verbose) {
+		this.verbose = verbose;
+	}
+
+	public String getExtension() {
+		return extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
 }

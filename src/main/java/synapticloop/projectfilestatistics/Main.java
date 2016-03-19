@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class ProjectFileStatistics {
+public class Main {
 
 	private static void printExample() {
 		StringBuilder stringBuilder = new StringBuilder(1024);
@@ -30,7 +30,7 @@ public class ProjectFileStatistics {
 		try {
 			BufferedReader bufferedReader = new BufferedReader(
 					new InputStreamReader(
-							ProjectFileStatistics.class.getResourceAsStream("/filestatistics-build.xml")));
+							Main.class.getResourceAsStream("/filestatistics-build.xml")));
 			int numRead = 0;
 			while((numRead = bufferedReader.read(chars)) != -1) {
 				String readData = String.valueOf(chars, 0, numRead);

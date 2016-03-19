@@ -5,24 +5,22 @@
 			<attribute name="FROM_GRADLE_MODEL" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="src/main/resources">
+		<attributes>
+			<attribute name="FROM_GRADLE_MODEL" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="src/test/java">
 		<attributes>
 			<attribute name="FROM_GRADLE_MODEL" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
+	<classpathentry kind="src" path="src/test/resources">
 		<attributes>
-			<attribute name="owner.project.facets" value="java"/>
+			<attribute name="FROM_GRADLE_MODEL" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/osmanj/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant/1.8.4/8acff3fb57e74bc062d4675d9dcfaffa0d524972/ant-1.8.4.jar" sourcepath="/Users/osmanj/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant/1.8.4/537740c84824c3bf2fd4ed752d2a33a1051fde71/ant-1.8.4-sources.jar"/>
-	<classpathentry kind="lib" path="/Users/osmanj/.gradle/caches/modules-2/files-2.1/synapticloop/simpleusage/1.1.1/2cb8b61d99acbb2ff9f451a8ac2e9b1820612c3/simpleusage-1.1.1.jar" sourcepath="/Users/osmanj/.gradle/caches/modules-2/files-2.1/synapticloop/simpleusage/1.1.1/5b3dc1de3a17cc366801e8607c0437a28afc3a1d/simpleusage-1.1.1-sources.jar"/>
-	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/synapticloop/simplelogger/1.1.0/simplelogger-1.1.0.jar" sourcepath="/Users/osmanj/.m2/repository/synapticloop/simplelogger/1.1.0/simplelogger-1.1.0-sources.jar"/>
-	<classpathentry kind="lib" path="/Users/osmanj/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar" sourcepath="/Users/osmanj/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/f2d8698c46d1167ff24b06a840a87d91a02db891/commons-io-2.4-sources.jar"/>
-	<classpathentry kind="lib" path="/Users/osmanj/.gradle/caches/modules-2/files-2.1/org.json/json/20160212/a742e3f85161835b95877478c5dd5b405cefaab9/json-20160212.jar" sourcepath="/Users/osmanj/.gradle/caches/modules-2/files-2.1/org.json/json/20160212/6b4ee9a02a4ed9eb92efe6104c424f70c822c8c8/json-20160212-sources.jar"/>
-	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/junit/junit/4.12/junit-4.12.jar"/>
-	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/org/mockito/mockito-all/1.10.19/mockito-all-1.10.19.jar" sourcepath="/Users/osmanj/.m2/repository/org/mockito/mockito-all/1.10.19/mockito-all-1.10.19-sources.jar"/>
-	<classpathentry kind="lib" path="/Users/osmanj/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant-launcher/1.8.4/22f1e0c32a2bfc8edd45520db176bac98cebbbfe/ant-launcher-1.8.4.jar" sourcepath="/Users/osmanj/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant-launcher/1.8.4/8b60137ab0e210cf12b27f8e006362761cea3122/ant-launcher-1.8.4-sources.jar"/>
-	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" sourcepath="/Users/osmanj/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

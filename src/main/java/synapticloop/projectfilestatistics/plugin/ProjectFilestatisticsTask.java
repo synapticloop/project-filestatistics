@@ -1,25 +1,20 @@
-package synapticloop.projectfilestatistics.ant;
+package synapticloop.projectfilestatistics.plugin;
 
 /*
- * Copyright (c) 2009-2011 Synapticloop.
+ * Copyright (c) 2011-2015 Synapticloop.
  * All rights reserved.
- * 
- * This source code and any derived binaries are covered by the terms and 
- * conditions of the Licence agreement ("the Licence").  You may not use this 
- * source code or any derived binaries except in compliance with the Licence.  
- * A copy of the Licence is available in the file named LICENCE shipped with 
+ *
+ * This source code and any derived binaries are covered by the terms and
+ * conditions of the Licence agreement ("the Licence").  You may not use this
+ * source code or any derived binaries except in compliance with the Licence.
+ * A copy of the Licence is available in the file named LICENCE shipped with
  * this source code or binaries.
- * 
- * Unless required by applicable law or agreed to in writing, software 
- * distributed under the Licence is distributed on an "AS IS" BASIS, WITHOUT 
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
- * Licence for the specific language governing permissions and limitations 
- * under the Licence. 
- * 
- * This work is based on the filestatistics ant plugin from NetReturn Consulting
- * http://www.netreturnconsulting.com.au/ and extended to include abstract 
- * printing architecture and removal of history statistics.
- * 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 import java.io.BufferedReader;
@@ -34,32 +29,17 @@ import java.util.Vector;
 
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.FileSet;
+import org.gradle.api.DefaultTask;
+import org.gradle.api.tasks.TaskAction;
 
 import synapticloop.projectfilestatistics.ant.bean.StatisticsBean;
 import synapticloop.projectfilestatistics.ant.reporter.AbstractReporter;
+import synapticloop.projectfilestatistics.exception.ProjectFilestatisticsException;
 import synapticloop.projectfilestatistics.util.Constants;
 import synapticloop.projectfilestatistics.util.PropertyManager;
 
-/**
- * This class collects statistics on files within the specified fileset.  It
- * records file types, number of files and number of lines (both code and
- * comments) and stores them in the StatisticsBean.
- * 
- * Three attributes are allowed for the element as follows:
- * <dl>
- *   <dt><strong>ignoreBinary</strong> - boolean - optional - default false</dt>
- *   <dd>Any extension which is considered 'binary' from the list of extensions
- *       will be silently ignored</dd>
- *   <dt><strong>propertyFile</strong> - String - optional</dt>
- *   <dd>The propertyFile location will be loaded and will over-ride any of the
- *       properties set in the default property file name</dd>
- * </dl>
- * 
- */
-
-public class ReportTask extends Task {
+public class ProjectFilestatisticsTask extends DefaultTask {
 	// custom property file name
 	private String propertyFileName = null;
 	// whether to ignore binary files
@@ -79,18 +59,18 @@ public class ReportTask extends Task {
 
 	Vector<AbstractReporter> reporters = new Vector<AbstractReporter>();
 
+	@TaskAction
+	public void generate() throws ProjectFilestatisticsException {
+		ProjectFilestatisticsPluginExtension extension = getProject().getExtensions().findByType(ProjectFilestatisticsPluginExtension.class);
 
-	/* (non-Javadoc)
-	 * @see org.apache.tools.ant.Task#execute()
-	 */
-	@Override
-	public void execute() {
+		if (extension == null) {
+			extension = new ProjectFilestatisticsPluginExtension();
+		}
 		// load up the properties
 		try {
 			PropertyManager.getInstance().initialise(Constants.DEFAULT_PROPERTY_FILE_NAME, propertyFileName);
 		} catch(MissingResourceException jumrex) {
-			getProject().log("Cannot load default properties file '" + Constants.DEFAULT_PROPERTY_FILE_NAME + "'.\nexiting...", Project.MSG_ERR);
-			return;
+			throw new ProjectFilestatisticsException("Cannot load default properties file '" + Constants.DEFAULT_PROPERTY_FILE_NAME + "'.\nexiting...");
 		}
 
 		// check for binary file checking
@@ -98,20 +78,22 @@ public class ReportTask extends Task {
 			loadBinaryFileExtensions();
 		}
 
+			ProjectWalker projectWalker = new ProjectWalker(new ProjectFilenameFilter(), -1);
 		// go through each of the files and record the statistics
-		for(int i = 0; i < filesets.size(); i++) {
-			FileSet fileset = (FileSet) filesets.elementAt(i);
-			DirectoryScanner directoryScanner = fileset.getDirectoryScanner(getProject());
-			String[] files = directoryScanner.getIncludedFiles();
-			File dirBase = fileset.getDir(getProject());
-
-			for(int j = 0; j < files.length; j++){
-				File file = new File(dirBase, files[j]);
-				if(file.isFile() && file.canRead()) {
-					recordFileStatistics(file);
-				}
-			}
-		}
+//		for(int i = 0; i < filesets.size(); i++) {
+//			FileSet fileset = (FileSet) filesets.elementAt(i);
+//			DirectoryScanner directoryScanner = fileset.getDirectoryScanner();
+//			directoryScanner.setBasedir(new File("."));
+//			String[] files = directoryScanner.getIncludedFiles();
+//			File dirBase = fileset.getDir(getProject());
+//
+//			for(int j = 0; j < files.length; j++){
+//				File file = new File(dirBase, files[j]);
+//				if(file.isFile() && file.canRead()) {
+//					recordFileStatistics(file);
+//				}
+//			}
+//		}
 
 		// print out the statistics
 		generatePluginList();
@@ -205,23 +187,6 @@ public class ReportTask extends Task {
 
 	public void addFileset(FileSet fileset) { filesets.addElement(fileset); }
 
-	/**
-	 * Retrieve the file extension from a file name.  If the file has no
-	 * extension, return an empty string.
-	 *  
-	 * @param fileName
-	 * @return the file extension
-	 */
-
-	private String getFileExtension(String fileName) {
-		int index = fileName.lastIndexOf('.');
-		if(index == -1) {
-			return "";
-		} else {
-			String extension = fileName.substring(index + 1);
-			return(extension);
-		}
-	}
 
 	/**
 	 * populate the list of binary file extensions for checking against files
@@ -234,117 +199,6 @@ public class ReportTask extends Task {
 			String[] binaryFiles = binaryFileExtensions.split("\\,");
 			for(int i = 0; i < binaryFiles.length; i++) {
 				binaryFileExtensionSet.add(binaryFiles[i].trim().toLowerCase());
-			}
-		}
-	}
-
-	/**
-	 * Gather statistics on the specified file adding these to the totals.
-	 * 
-	 * @param file the file to gather statistics on
-	 */
-
-	private void recordFileStatistics(File file) {
-		String fileExtension = getFileExtension(file.getName());
-
-		// now to check whether this is a binary file
-		if(ignoreBinary && binaryFileExtensionSet.contains(fileExtension.toLowerCase())) {
-			return;
-		}
-
-		String singleLineComment = PropertyManager.getInstance().getProperty(fileExtension + ".comment.single");
-		String multiLineCommentStart = PropertyManager.getInstance().getProperty(fileExtension + ".comment.multi.start");
-		String multiLineCommentEnd = PropertyManager.getInstance().getProperty(fileExtension + ".comment.multi.end");
-
-		boolean hasSingleLineComment = (null != singleLineComment);
-		boolean hasMultiLineCommentStart = (null != multiLineCommentStart);
-		boolean hasMultiLineCommentEnd = (null != multiLineCommentEnd);
-
-		int lineCount = 0;
-		int lineCodeCount = 0;
-		int lineCommentCount = 0;
-		int lineBlankCount = 0;
-
-		boolean isInComment = false;
-
-		FileReader fileReader = null;
-		BufferedReader bufferedReader = null;
-
-		try {
-			fileReader = new FileReader(file);
-			bufferedReader = new BufferedReader(fileReader);
-
-			String line;
-			do {
-				boolean thisLine = false;
-				line = bufferedReader.readLine();
-				if (line != null) {
-					lineCount++;
-					lineCodeCount++;
-					line = line.trim();
-
-					// check to make sure that we aren't in a comment
-					if(!isInComment && hasSingleLineComment && line.startsWith(singleLineComment)) {
-						lineCommentCount++;
-						lineCodeCount--;
-					} else if(line.length() == 0) {
-						lineCodeCount--;
-						lineBlankCount++;
-					} else {
-						// at this point, this is definitely not a single line comment
-						// and is not a blank line
-						if(hasMultiLineCommentStart) {
-							if(line.startsWith(multiLineCommentStart)) {
-								lineCommentCount++;
-								lineCodeCount--;
-								isInComment = true;
-								thisLine = true;
-							}
-
-							if(line.contains(multiLineCommentStart)) {
-								isInComment = true;
-								thisLine = true;
-							}
-						}
-
-						// there may be a case where the multi-line comment 
-						// starts and ends on the same line
-
-						if(hasMultiLineCommentEnd && isInComment) {
-							if(line.contains(multiLineCommentEnd)) {
-								isInComment = false;
-								if(!thisLine) {
-									lineCommentCount++;
-									lineCodeCount--;
-								}
-							}
-						}
-					}
-				}
-			} while (line != null);
-
-			statisticsBean.updateCount(fileExtension, lineCodeCount, lineCommentCount, lineBlankCount);
-
-		} catch (FileNotFoundException jifnfex) {
-			// this shouldn't happen as the fileset is passed through via ant
-			// which has already checked - do nothing yet.
-		} catch (IOException jiioex) {
-			// do nothing as to keep things quiet
-		} finally {
-			if(null != fileReader) {
-				try {
-					fileReader.close();
-				} catch (IOException jiioex) {
-					fileReader = null;
-				}
-			}
-
-			if(null != bufferedReader) {
-				try {
-					bufferedReader.close();
-				} catch (IOException jiioex) {
-					bufferedReader = null;
-				}
 			}
 		}
 	}
@@ -376,4 +230,3 @@ public class ReportTask extends Task {
 			this.outputDirectory = outputDirectory;
 		}
 	}
-}

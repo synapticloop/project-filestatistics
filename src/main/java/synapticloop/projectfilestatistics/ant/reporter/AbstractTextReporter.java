@@ -1,9 +1,7 @@
 package synapticloop.projectfilestatistics.ant.reporter;
 
-import synapticloop.projectfilestatistics.util.PrintfFormat;
-
 /*
- * Copyright (c) 2009-2011 synapticloop.
+ * Copyright (c) 2009-2011 Synapticloop.
  * All rights reserved.
  * 
  * This source code and any derived binaries are covered by the terms and 
@@ -18,6 +16,8 @@ import synapticloop.projectfilestatistics.util.PrintfFormat;
  * Licence for the specific language governing permissions and limitations 
  * under the Licence. 
  */
+
+import synapticloop.projectfilestatistics.util.PrintfFormat;
 
 public class AbstractTextReporter extends AbstractReporter {
 	protected static final String FILE_TYPE_HEADING = "File type";
