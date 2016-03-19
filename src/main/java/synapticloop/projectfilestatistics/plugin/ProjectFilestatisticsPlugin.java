@@ -25,8 +25,8 @@ public class ProjectFilestatisticsPlugin implements Plugin<Project> {
 
 	@Override
 	public void apply(Project project) {
-		project.getExtensions().create("documentrSetting", ProjectFilestatisticsPluginExtension.class);
-		project.getTasks().create("documentr", ProjectFilestatisticsTask.class);
+		project.getExtensions().create("projectFilestatistics", ProjectFilestatisticsPluginExtension.class);
+		project.getTasks().create("projectFilestatistics", ProjectFilestatisticsTask.class);
 	}
 
 }

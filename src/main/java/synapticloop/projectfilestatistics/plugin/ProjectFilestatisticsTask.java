@@ -66,6 +66,7 @@ public class ProjectFilestatisticsTask extends DefaultTask {
 		if (extension == null) {
 			extension = new ProjectFilestatisticsPluginExtension();
 		}
+
 		// load up the properties
 		try {
 			PropertyManager.getInstance().initialise(Constants.DEFAULT_PROPERTY_FILE_NAME, propertyFileName);
