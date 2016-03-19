@@ -1,4 +1,4 @@
-package synapticloop.projectfilestatistics.gradle.exception;
+package synapticloop.projectfilestatistics.exception;
 
 /*
  * Copyright (c) 2016 Synapticloop.

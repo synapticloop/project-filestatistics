@@ -1,7 +1,4 @@
-package synapticloop.projectfilestatistics.gradle.plugin;
-
-import java.util.ArrayList;
-import java.util.List;
+package synapticloop.projectfilestatistics.plugin;
 
 /*
  * Copyright (c) 2016 Synapticloop.
@@ -20,12 +17,14 @@ import java.util.List;
  * under the Licence.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProjectFilestatisticsPluginExtension {
 	private List<String> includes = new ArrayList<String>();
 	private List<String> excludes = new ArrayList<String>();
 
 	private String directory = ".";
-	private boolean ignoreBinary = false;
 	private String propertyFile = null;
 	private String outputDirectory = ".";
 
@@ -35,14 +34,6 @@ public class ProjectFilestatisticsPluginExtension {
 
 	public void setDirectory(String directory) {
 		this.directory = directory;
-	}
-
-	public boolean getIgnoreBinary() {
-		return ignoreBinary;
-	}
-
-	public void setIgnoreBinary(boolean ignoreBinary) {
-		this.ignoreBinary = ignoreBinary;
 	}
 
 	public String getPropertyFile() {

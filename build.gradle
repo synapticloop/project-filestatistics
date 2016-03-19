@@ -72,30 +72,14 @@ repositories {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 dependencies {
-	runtime 'synapticloop:simpleusage:1.1.1'
-	runtime 'synapticloop:simplelogger:1.1.0'
-	runtime 'commons-io:commons-io:2.4'
-	runtime 'org.json:json:20160212'
 
 	compile gradleApi()
-	compile 'org.apache.ant:ant:1.8.4'
-	compile 'synapticloop:simpleusage:1.1.1'
-	compile 'synapticloop:simplelogger:1.1.0'
-	compile 'commons-io:commons-io:2.4'
-	compile 'org.json:json:20160212'
-
-	testRuntime 'junit:junit:4.12'
-	testRuntime 'org.mockito:mockito-all:1.10.19'
-
-	testCompile 'junit:junit:4.12'
-	testCompile 'org.mockito:mockito-all:1.10.19'
 }
 
 // we always want to fail on version conflict
 configurations.all {
 	resolutionStrategy {
 		failOnVersionConflict()
-		force 'org.hamcrest:hamcrest-core:1.3'
 	}
 }
 

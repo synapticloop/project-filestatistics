@@ -1,4 +1,4 @@
-package synapticloop.projectfilestatistics.gradle.plugin;
+package synapticloop.projectfilestatistics.plugin;
 
 import java.io.BufferedReader;
 
@@ -24,7 +24,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -34,8 +33,8 @@ import org.gradle.api.Project;
 import org.gradle.api.file.ConfigurableFileTree;
 import org.gradle.api.tasks.TaskAction;
 
-import synapticloop.projectfilestatistics.gradle.exception.ProjectFilestatisticsException;
-import synapticloop.projectfilestatistics.gradle.plugin.bean.StatisticsBean;
+import synapticloop.projectfilestatistics.exception.ProjectFilestatisticsException;
+import synapticloop.projectfilestatistics.plugin.bean.StatisticsBean;
 import synapticloop.projectfilestatistics.reporter.CumulativeBarTextReporter;
 import synapticloop.projectfilestatistics.reporter.NumberTextReporter;
 import synapticloop.projectfilestatistics.util.Constants;
@@ -47,11 +46,7 @@ public class ProjectFilestatisticsTask extends DefaultTask {
 	private static final String KEY_EXCLUDES = "excludes";
 
 	private StatisticsBean statisticsBean = new StatisticsBean();
-	private HashSet<String> binaryFileExtensionSet = new HashSet<String>();
 
-//	private Vector<AbstractReporter> reporters = new Vector<AbstractReporter>();
-
-	private boolean ignoreBinary;
 	private List<String> includes;
 	private List<String> excludes;
 
@@ -71,18 +66,12 @@ public class ProjectFilestatisticsTask extends DefaultTask {
 			throw new ProjectFilestatisticsException("Cannot load default properties file '" + Constants.DEFAULT_PROPERTY_FILE_NAME + "'.\nexiting...");
 		}
 
-		this.ignoreBinary = extension.getIgnoreBinary();
 		this.includes = extension.getIncludes();
 		if(includes.isEmpty()) {
 			this.includes.add("src/main/**/*.*");
 		}
 
 		this.excludes = extension.getExcludes();
-
-		// check for binary file checking
-		if(ignoreBinary) {
-			loadBinaryFileExtensions();
-		}
 
 		String absoluteProjectPath = project.getProjectDir().getAbsolutePath();
 
@@ -129,11 +118,6 @@ public class ProjectFilestatisticsTask extends DefaultTask {
 
 	private void recordFileStatistics(File file) {
 		String fileExtension = getFileExtension(file.getName());
-
-		// now to check whether this is a binary file
-		if(ignoreBinary && binaryFileExtensionSet.contains(fileExtension.toLowerCase())) {
-			return;
-		}
 
 		String singleLineComment = PropertyManager.getInstance().getProperty(fileExtension + ".comment.single");
 		String multiLineCommentStart = PropertyManager.getInstance().getProperty(fileExtension + ".comment.multi.start");
@@ -226,21 +210,6 @@ public class ProjectFilestatisticsTask extends DefaultTask {
 				} catch (IOException jiioex) {
 					bufferedReader = null;
 				}
-			}
-		}
-	}
-
-	/**
-	 * populate the list of binary file extensions for checking against files
-	 * to determine whether to skip them.  Each element in the comma separated 
-	 * list is trimmed and set to lowercase before being stored in the hashset.
-	 */
-	private void loadBinaryFileExtensions() {
-		String binaryFileExtensions = PropertyManager.getInstance().getProperty(Constants.PROPERTY_BINARY_FILE_EXTENSION);
-		if(null != binaryFileExtensions) {
-			String[] binaryFiles = binaryFileExtensions.split("\\,");
-			for(int i = 0; i < binaryFiles.length; i++) {
-				binaryFileExtensionSet.add(binaryFiles[i].trim().toLowerCase());
 			}
 		}
 	}

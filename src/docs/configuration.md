@@ -17,7 +17,14 @@ projectFilestatistics {
 
 	// the output directory for the generated statistics
 	outputDirectory = 'src/docs'
+
+	// if you require to over-ride how single and multi-line comments work, or
+	// need to add in some extensions which aren't built in...
+	propertyFile = 'over-ride.properties'
 }
-
-
 ```
+> see `src/main/resources/project-filestatistics.properties` for the pre-defined types
+
+### Property file over-riding
+
+The over-ride property file allows definitions for existing
