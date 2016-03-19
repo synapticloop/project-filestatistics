@@ -1,7 +1,7 @@
-package synapticloop.projectfilestatistics.plugin;
+package synapticloop.projectfilestatistics.gradle.plugin;
 
 /*
- * Copyright (c) 2011-2016 Synapticloop.
+ * Copyright (c) 2016 Synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -17,25 +17,19 @@ package synapticloop.projectfilestatistics.plugin;
  * under the Licence.
  */
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.MissingResourceException;
 import java.util.Vector;
 
-import org.apache.tools.ant.DirectoryScanner;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 
 import synapticloop.projectfilestatistics.ant.bean.StatisticsBean;
 import synapticloop.projectfilestatistics.ant.reporter.AbstractReporter;
-import synapticloop.projectfilestatistics.exception.ProjectFilestatisticsException;
+import synapticloop.projectfilestatistics.gradle.exception.ProjectFilestatisticsException;
 import synapticloop.projectfilestatistics.util.Constants;
 import synapticloop.projectfilestatistics.util.PropertyManager;
 
@@ -79,7 +73,6 @@ public class ProjectFilestatisticsTask extends DefaultTask {
 			loadBinaryFileExtensions();
 		}
 
-			ProjectWalker projectWalker = new ProjectWalker(new ProjectFilenameFilter(), -1);
 		// go through each of the files and record the statistics
 //		for(int i = 0; i < filesets.size(); i++) {
 //			FileSet fileset = (FileSet) filesets.elementAt(i);
@@ -231,3 +224,4 @@ public class ProjectFilestatisticsTask extends DefaultTask {
 			this.outputDirectory = outputDirectory;
 		}
 	}
+}

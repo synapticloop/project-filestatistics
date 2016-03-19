@@ -1,7 +1,7 @@
-package synapticloop.projectfilestatistics.plugin;
+package synapticloop.projectfilestatistics.gradle.plugin;
 
 /*
- * Copyright (c) 2011-2016 Synapticloop.
+ * Copyright (c) 2016 Synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -18,10 +18,10 @@ package synapticloop.projectfilestatistics.plugin;
  */
 
 public class ProjectFilestatisticsPluginExtension {
-	private boolean verbose = false;
-
 	private String directory = ".";
-	private String extension = "md";
+	private boolean ignoreBinary = false;
+	private String propertyFile = null;
+	private String outputDirectory = null;
 
 	public String getDirectory() {
 		return(directory);
@@ -31,19 +31,27 @@ public class ProjectFilestatisticsPluginExtension {
 		this.directory = directory;
 	}
 
-	public boolean getVerbose() {
-		return this.verbose;
+	public boolean getIgnoreBinary() {
+		return ignoreBinary;
 	}
 
-	public void setVerbose(boolean verbose) {
-		this.verbose = verbose;
+	public void setIgnoreBinary(boolean ignoreBinary) {
+		this.ignoreBinary = ignoreBinary;
 	}
 
-	public String getExtension() {
-		return extension;
+	public String getPropertyFile() {
+		return propertyFile;
 	}
 
-	public void setExtension(String extension) {
-		this.extension = extension;
+	public void setPropertyFile(String propertyFile) {
+		this.propertyFile = propertyFile;
+	}
+
+	public String getOutputDirectory() {
+		return outputDirectory;
+	}
+
+	public void setOutputDirectory(String outputDirectory) {
+		this.outputDirectory = outputDirectory;
 	}
 }

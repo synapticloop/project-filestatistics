@@ -1,7 +1,8 @@
-package synapticloop.projectfilestatistics.plugin;
+package synapticloop.projectfilestatistics.gradle.plugin;
 
 /*
- * Copyright (c) 2011-2016 Synapticloop.
+ * Copyright (c) 2016 Synapticloop.
+ * 
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
