@@ -34,8 +34,8 @@ import org.gradle.api.Project;
 import org.gradle.api.file.ConfigurableFileTree;
 import org.gradle.api.tasks.TaskAction;
 
-import synapticloop.projectfilestatistics.bean.StatisticsBean;
 import synapticloop.projectfilestatistics.gradle.exception.ProjectFilestatisticsException;
+import synapticloop.projectfilestatistics.gradle.plugin.bean.StatisticsBean;
 import synapticloop.projectfilestatistics.reporter.CumulativeBarTextReporter;
 import synapticloop.projectfilestatistics.reporter.NumberTextReporter;
 import synapticloop.projectfilestatistics.util.Constants;

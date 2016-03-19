@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 
-import synapticloop.projectfilestatistics.bean.StatisticsBean;
+import synapticloop.projectfilestatistics.gradle.plugin.bean.StatisticsBean;
 
 public abstract class AbstractReporter {
 	protected String outputDirectory = null;
