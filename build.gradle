@@ -101,6 +101,30 @@ configurations.all {
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
+ * projectFilestatistics plugin configuration
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+projectFilestatistics {
+	includes = [
+		"src/main/**/*.*"
+	]
+
+	excludes = [
+	
+	]
+
+	outputDirectory = 'src/docs'
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * Documnentr plugin configuration
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
  * Copyrightr plugin configuration
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
