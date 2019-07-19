@@ -13,7 +13,7 @@ buildscript {
 	}
 
 	dependencies {
-		classpath 'synapticloop:project-filestatistics:1.0.2'
+		classpath 'synapticloop:project-filestatistics:1.1.0'
 	}
 }
 
@@ -24,15 +24,22 @@ buildscript {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 plugins {
+	// project
 	id 'java'
 	id 'eclipse'
 	id 'maven'
 	id 'maven-publish'
-	id 'com.gradle.plugin-publish' version '0.9.3'
+
+	// publishing
+	id 'com.gradle.plugin-publish' version '0.10.1'
 	id 'co.riiid.gradle' version '0.4.2'
-	id 'com.jfrog.bintray' version '1.6'
-	id 'synapticloop.documentr' version '1.3.6'
-	id 'synapticloop.copyrightr' version '1.0.1'
+	id 'com.jfrog.bintray' version '1.8.4'
+
+	// utilities
+	id 'com.github.ben-manes.versions' version '0.21.0'
+
+	id 'synapticloop.documentr' version '3.0.0'
+	id 'synapticloop.copyrightr' version '1.3.1'
 }
 
 apply plugin: 'synapticloop.projectFilestatistics'
@@ -46,10 +53,10 @@ group = 'synapticloop'
 archivesBaseName = 'project-filestatistics'
 description = """generate statistics about the files for the project"""
 
-version = '1.0.2'
+version = '1.1.0'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 
 
@@ -72,8 +79,9 @@ repositories {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 dependencies {
+	compileOnly gradleApi()
 
-	compile gradleApi()
+	implementation 'commons-io:commons-io:2.6'
 }
 
 // we always want to fail on version conflict
@@ -141,13 +149,6 @@ github {
 		'build/libs/' + archivesBaseName + '-' + version + '-all.jar',
 		'build/libs/' + archivesBaseName + '-' + version + '.jar'
 	]
-}
-
-def javaApiUrl = 'http://docs.oracle.com/javase/1.7.0/docs/api/'
-def groovyApiUrl = 'http://groovy.codehaus.org/gapi/'
-
-tasks.withType(Javadoc) {
-	options.links(javaApiUrl, groovyApiUrl)
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
